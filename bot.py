@@ -2,6 +2,19 @@ import os
 from pyrogram import Client
 from aiohttp import web
 from config import API_ID, API_HASH, BOT_TOKEN
+import sqlite3
+import warnings
+warnings.filterwarnings("ignore", message=".*message.forward_date.*")
+
+conn = sqlite3.connect("bot_data.db", check_same_thread=False)
+cur = conn.cursor()
+cur.execute("""
+CREATE TABLE IF NOT EXISTS channels (
+    chat_id INTEGER PRIMARY KEY,
+    title TEXT
+)
+""")
+conn.commit()
 
 # Define routes for aiohttp web server
 r = web.RouteTableDef()
@@ -40,7 +53,7 @@ class Bot(Client):
         me = await self.get_me()
         self.username = '@' + me.username
 
-        print('Bot Started Powered By @TechifyBots')
+        print('Bot Started Powered By @Real_Pirates')
 
     async def stop(self, *args):
         await super().stop()
