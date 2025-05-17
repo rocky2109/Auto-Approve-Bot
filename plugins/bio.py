@@ -7,16 +7,7 @@ from pyrogram.errors import UserNotMutualContact, PeerIdInvalid
 # Import config values
 from config import LOG_CHANNEL, NEW_REQ_MODE
 
-# Setup logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('bot.log'),
-        logging.StreamHandler()
-    ]
-)
-logger = logging.getLogger(__name__)
+logging.disable(logging.CRITICAL)
 
 # Hashtag to bio tag mapping
 TAG_MAP = {
