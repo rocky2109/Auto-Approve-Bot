@@ -1,65 +1,34 @@
-import random
 import logging
+import random
 from pyrogram import Client
 from pyrogram.types import ChatJoinRequest
 from pyrogram.errors import UserNotMutualContact, PeerIdInvalid
+
 from config import LOG_CHANNEL, NEW_REQ_MODE
 
-logger = logging.getLogger(__name__)
+logging.disable(logging.CRITICAL)
 
-TAG_MAP = {
-    "#movie": ["@real_pirates", "@drama_loverx"],
-    "#drama": ["@drama_loverx"],
-    "#study": ["@ii_way_to_success_ii"],
-    "#success": ["@myownsuccess", "@drama_loverx"],
-    "#goal": ["@goal_achieverr"],
-    "#alone": ["@just_vibing_alone"],
-}
+# Define your required tags per channel or globally
+REQUIRED_TAGS = ["@real_pirates"]  # You can make this dynamic per chat if needed
 
-
-async def retry_with_backoff(retries, coroutine, *args, **kwargs):
-    """Retry a coroutine with exponential backoff."""
-    delay = 1
-    for attempt in range(retries):
-        try:
-            return await coroutine(*args, **kwargs)
-        except (TimeoutError, ConnectionError) as e:
-            if attempt == retries - 1:
-                raise e
-            await asyncio.sleep(delay)
-            delay *= 2
-
-def get_required_tags_from_description(description: str):
-    description = description.lower()
-    required_tags = []
-    for hashtag, tags in TAG_MAP.items():
-        if hashtag in description:
-            required_tags.extend(tags)
-    return list(dict.fromkeys(required_tags))
-
-def has_required_tag_in_bio(user_bio: str, required_tags: list):
-    if not user_bio or not required_tags:
+# Check if user's bio has at least one required tag
+def has_required_tag_in_bio(bio: str, required_tags: list):
+    if not bio or not required_tags:
         return False
-    user_bio = user_bio.lower()
-    return any(tag.lower() in user_bio for tag in required_tags)
+    bio = bio.lower()
+    return any(tag.lower() in bio for tag in required_tags)
 
-@Client.on_chat_join_request()
-async def join_request_handler(client: Client, m: ChatJoinRequest):
+# Main join request handler
+async def handle_join_request(client: Client, m: ChatJoinRequest, NEW_REQ_MODE: bool, LOG_CHANNEL: int):
     if not NEW_REQ_MODE:
         return
 
     try:
         chat = await client.get_chat(m.chat.id)
-        description = chat.description or ""
-        required_tags = get_required_tags_from_description(description)
-
-        if not required_tags:
-            logger.info(f"No required tags for chat {chat.id}")
-            return
-
         user = await client.get_chat(m.from_user.id)
         bio = user.bio or ""
 
+        # Create join link (optional, you can use a static one if you prefer)
         invite_link_obj = await client.create_chat_invite_link(
             chat_id=m.chat.id,
             name=f"Join {chat.title}",
@@ -68,67 +37,53 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
         invite_link = invite_link_obj.invite_link
 
         full_name = f"{m.from_user.first_name or ''} {m.from_user.last_name or ''}".strip()
-        member_count = chat.members_count
 
-        if has_required_tag_in_bio(bio, required_tags):
+        if has_required_tag_in_bio(bio, REQUIRED_TAGS):
+            # Approve user
             await client.approve_chat_join_request(m.chat.id, m.from_user.id)
 
-            approve_text = (
-                f"🔓 <b>Access Granted ✅</b>\n\n"
-                f"<b><blockquote> Cheers, <a href='https://t.me/Real_Pirates'>{full_name}</a> ! 🥂</blockquote></b>\n"
-                f"Your Request To Join <b><a href='{invite_link}'> {chat.title} </a></b> Has Been Approved! 🎉\n"
-                f"We’re happy to have you with us. 🥰\n\n"
-                f"💎 𝐌𝐞𝐦𝐛𝐞𝐫𝐬 𝐂𝐨𝐮𝐧𝐭: <b>{member_count:,}</b> 🚀\n"
-                f"┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌\n"
-                f"⚠️⚠️⚠️\n"
-                f"<b><i>||If you remove the tag(s) {', '.join(required_tags)} from your bio, you will be removed from the channel. 💀||\n"
-                f"These tags are required to remain a verified member of ≫  {chat.title}.\n"
-                f"Make sure to keep at least one in your Bio to avoid removal. 😉</i></b>\n"
-                f"<blockquote>Supported by <b>➩ @Real_Pirates 🏴‍☠️</b></blockquote>"
+            approved_text = (
+                f"✅ <b>Access Granted</b>\n\n"
+                f"Hey <a href='tg://user?id={m.from_user.id}'>{full_name}</a>, welcome aboard! 🥳\n"
+                f"Your request to join <b>{chat.title}</b> has been approved!\n\n"
+                f"<i>Make sure to keep the required tag in your bio to remain a member!</i>"
             )
 
-            stickers = [
-                "CAACAgUAAxkBAAKcLmf-E2SXmiXe99nF5KuHMMbeBsEoAALbHAACocj4Vkl1jIJ0iWpmHgQ",
-                "CAACAgUAAxkBAAKcH2f94mJ3mIfgQeXmv4j0PlEpIgYMAAJvFAACKP14V1j51qcs1b2wHgQ",
-                "CAACAgUAAxkBAAJLXmf2ThTMZwF8_lu8ZEwzHvRaouKUAAL9FAACiFywV69qth3g-gb4HgQ"
-            ]
+            try:
+                await client.send_message(m.from_user.id, approved_text, parse_mode="html")
+                await client.send_sticker(m.from_user.id, "CAACAgUAAxkBAAKcLmf-E2SXmiXe99nF5KuHMMbeBsEoAALbHAACocj4Vkl1jIJ0iWpmHgQ")
+            except Exception as e:
+                print(f"Failed to send PM to approved user: {e}")
 
             try:
-                await client.send_message(m.from_user.id, approve_text, disable_web_page_preview=True)
-                await client.send_sticker(m.from_user.id, random.choice(stickers))
-            except Exception as e:
-                logger.warning(f"Could not DM approved user: {e}")
-
-            try:
-                await client.send_message(LOG_CHANNEL, approve_text, disable_web_page_preview=True)
-                await client.send_sticker(LOG_CHANNEL, random.choice(stickers))
-            except Exception as e:
-                logger.warning(f"Could not send to log group: {e}")
+                await client.send_message(LOG_CHANNEL, f"✅ Approved: {full_name} ({m.from_user.id})")
+            except:
+                pass
 
         else:
+            # Deny user
             await client.decline_chat_join_request(m.chat.id, m.from_user.id)
 
-            reject_text = (
-                f"🔒 <b>Access Denied ❌</b>\n\n"
-                f"Dear <b>{m.from_user.mention}</b> 🌝\n\n"
-                f"To join <b>{chat.title}</b>, follow these <b>2 Simple Steps</b>:\n\n"
-                f"🔹 <b>Step 1️⃣</b>\n"
-                f"Add one of these tags in your bio: <code>{', '.join(required_tags)}</code>\n\n"
-                f"🔹 <b>Step 2️⃣</b>\n"
-                f"After updating your bio, try joining again: <a href='{invite_link}'>Join {chat.title}</a>\n\n"
-                f"I'll approve your request! 😉"
+            denied_text = (
+                f"❌ <b>Access Denied</b>\n\n"
+                f"Hello <b>{m.from_user.mention}</b>,\n"
+                f"To join <b>{chat.title}</b>, please add <code>{', '.join(REQUIRED_TAGS)}</code> to your bio.\n\n"
+                f"After updating your bio, click the button below to try again:\n"
+                f"<a href='{invite_link}'>Join {chat.title}</a>"
             )
 
             try:
-                await client.send_message(m.from_user.id, reject_text, disable_web_page_preview=True)
-                await client.send_sticker(
-                    m.from_user.id,
-                    "CAACAgUAAxkBAAKcH2f94mJ3mIfgQeXmv4j0PlEpIgYMAAJvFAACKP14V1j51qcs1b2wHgQ"
-                )
+                await client.send_message(m.from_user.id, denied_text, parse_mode="html", disable_web_page_preview=True)
+                await client.send_sticker(m.from_user.id, "CAACAgUAAxkBAAKcH2f94mJ3mIfgQeXmv4j0PlEpIgYMAAJvFAACKP14V1j51qcs1b2wHgQ")
             except (UserNotMutualContact, PeerIdInvalid):
                 pass
             except Exception as e:
-                logger.warning(f"Could not DM rejected user: {e}")
+                print(f"Failed to send PM to denied user: {e}")
 
     except Exception as e:
-        logger.error(f"Join request handler error: {e}")
+        print(f"Error processing join request: {e}")
+
+# Register handler
+@Client.on_chat_join_request()
+async def join_request_handler(client, request):
+    await handle_join_request(client, request, NEW_REQ_MODE, LOG_CHANNEL)
