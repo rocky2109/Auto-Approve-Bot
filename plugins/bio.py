@@ -136,4 +136,4 @@ async def handle_join_request(client: Client, m: ChatJoinRequest, NEW_REQ_MODE: 
 # ✅ Register the event listener
 @Client.on_chat_join_request()
 async def join_request_handler(client, request):
-    await handle_join_request(client, request, NEW_REQ_MODE, LOG_GROUP)
+    await handle_join_request(client, request, NEW_REQ_MODE, LOG_CHANNEL)
