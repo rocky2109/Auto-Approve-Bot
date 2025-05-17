@@ -87,3 +87,10 @@ async def handle_join_request(client: Client, m: ChatJoinRequest, NEW_REQ_MODE: 
 @Client.on_chat_join_request()
 async def join_request_handler(client, request):
     await handle_join_request(client, request, NEW_REQ_MODE, LOG_CHANNEL)
+    
+
+@Client.on_chat_join_request()
+async def join_request_handler(client, request):
+    print("Join request received")
+    await handle_join_request(client, request, NEW_REQ_MODE, LOG_CHANNEL)
+
