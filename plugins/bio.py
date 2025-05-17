@@ -16,6 +16,20 @@ TAG_MAP = {
     "#alone": ["@just_vibing_alone"],
 }
 
+NEW_REQ_MODE = True  # Set to False to disable auto-approval
+
+async def retry_with_backoff(retries, coroutine, *args, **kwargs):
+    """Retry a coroutine with exponential backoff."""
+    delay = 1
+    for attempt in range(retries):
+        try:
+            return await coroutine(*args, **kwargs)
+        except (TimeoutError, ConnectionError) as e:
+            if attempt == retries - 1:
+                raise e
+            await asyncio.sleep(delay)
+            delay *= 2
+
 def get_required_tags_from_description(description: str):
     description = description.lower()
     required_tags = []
