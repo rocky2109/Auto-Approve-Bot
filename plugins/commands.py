@@ -16,19 +16,6 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 # Define NEW_REQ_MODE (configurable)
-NEW_REQ_MODE = True  # Set to False to disable auto-approval
-
-async def retry_with_backoff(retries, coroutine, *args, **kwargs):
-    """Retry a coroutine with exponential backoff."""
-    delay = 1
-    for attempt in range(retries):
-        try:
-            return await coroutine(*args, **kwargs)
-        except (TimeoutError, ConnectionError) as e:
-            if attempt == retries - 1:
-                raise e
-            await asyncio.sleep(delay)
-            delay *= 2
 
 @Client.on_message(filters.command("start"))
 async def start_message(c, m: Message):
