@@ -16,7 +16,6 @@ TAG_MAP = {
     "#alone": ["@just_vibing_alone"],
 }
 
-NEW_REQ_MODE = True  # Set to False to disable auto-approval
 
 async def retry_with_backoff(retries, coroutine, *args, **kwargs):
     """Retry a coroutine with exponential backoff."""
