@@ -12,14 +12,8 @@ from pyrogram.types import Message
 from .fsub import get_fsub
 from threading import Thread    # Import all the command handlers from commands.py
 
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler("bot.log"),
-        logging.StreamHandler()
-    ]
-)
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 # Define NEW_REQ_MODE (configurable)
 NEW_REQ_MODE = True  # Set to False to disable auto-approval
