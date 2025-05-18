@@ -1,9 +1,14 @@
 import random
 import logging
-from pyrogram import Client
 from pyrogram.types import ChatJoinRequest
 from pyrogram.errors import UserNotMutualContact, PeerIdInvalid
-from config import LOG_CHANNEL, NEW_REQ_MODE
+import asyncio
+from pyrogram import Client, filters, enums
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ChatJoinRequest, Message
+from pyrogram.errors import InputUserDeactivated, UserNotParticipant, FloodWait, UserIsBlocked, PeerIdInvalid
+from config import *
+from .database import db
+from threading import Thread
 
 logger = logging.getLogger(__name__)
 
