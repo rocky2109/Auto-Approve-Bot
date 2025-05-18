@@ -4,7 +4,6 @@ from aiohttp import web
 from config import API_ID, API_HASH, BOT_TOKEN
 import sqlite3
 import warnings
-from plugins.bio import handle_join_request  # Ensure this is implemented correctly
 
 warnings.filterwarnings("ignore", message=".*message.forward_date.*")
 
