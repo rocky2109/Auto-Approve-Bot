@@ -17,30 +17,6 @@ logger.setLevel(logging.INFO)
 # Global flag to control auto-approve
 NEW_REQ_MODE = True
 
-async def retry_with_backoff(retries, coroutine, *args, **kwargs):
-    delay = 1
-    for attempt in range(retries):
-        try:
-            return await coroutine(*args, **kwargs)
-        except (TimeoutError, ConnectionError) as e:
-            if attempt == retries - 1:
-                raise e
-            await asyncio.sleep(delay)
-            delay *= 2
-
-
-# Connect to DB (make sure to name your DB file correctly)
-conn = sqlite3.connect("bot_data.db", check_same_thread=False)
-cur = conn.cursor()
-
-# ✅ Create table if not exists
-cur.execute("""
-CREATE TABLE IF NOT EXISTS channels (
-    chat_id INTEGER PRIMARY KEY,
-    title TEXT
-)
-""")
-conn.commit()
               
 @Client.on_message(filters.command("start"))
 async def start_message(c, m):
