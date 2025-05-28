@@ -1,29 +1,26 @@
 import random
 import logging
-from pyrogram.types import ChatJoinRequest
-from pyrogram.errors import UserNotMutualContact, PeerIdInvalid
 import asyncio
 from pyrogram import Client, filters, enums
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ChatJoinRequest, Message
-from pyrogram.errors import InputUserDeactivated, UserNotParticipant, FloodWait, UserIsBlocked, PeerIdInvalid
+from pyrogram.errors import InputUserDeactivated, UserNotParticipant, FloodWait, UserIsBlocked, PeerIdInvalid, UserNotMutualContact
 from config import *
 from .database import db
-from threading import Thread
 
 logger = logging.getLogger(__name__)
 
+# Updated TAG MAP with multiple tags for #study
 TAG_MAP = {
     "#movie": ["@real_pirates", "@drama_loverx"],
     "#drama": ["@drama_loverx"],
-    "#study": ["@ii_way_to_success_ii"],
-    "#success": ["@myownsuccess", "@drama_loverx"],
-    "#goal": ["@goal_achieverr"],
+    "#study": ["@ii_way_to_success_ii", "@II_LevelUP_II"],
+    "#success": ["@myownsuccess"],
+    "#skill": ["@II_LevelUP_II"],
     "#alone": ["@just_vibing_alone"],
 }
 
 
 async def retry_with_backoff(retries, coroutine, *args, **kwargs):
-    """Retry a coroutine with exponential backoff."""
     delay = 1
     for attempt in range(retries):
         try:
@@ -34,6 +31,7 @@ async def retry_with_backoff(retries, coroutine, *args, **kwargs):
             await asyncio.sleep(delay)
             delay *= 2
 
+
 def get_required_tags_from_description(description: str):
     description = description.lower()
     required_tags = []
@@ -42,11 +40,13 @@ def get_required_tags_from_description(description: str):
             required_tags.extend(tags)
     return list(dict.fromkeys(required_tags))
 
+
 def has_required_tag_in_bio(user_bio: str, required_tags: list):
     if not user_bio or not required_tags:
         return False
     user_bio = user_bio.lower()
     return any(tag.lower() in user_bio for tag in required_tags)
+
 
 @Client.on_chat_join_request()
 async def join_request_handler(client: Client, m: ChatJoinRequest):
@@ -113,15 +113,19 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
         else:
             await client.decline_chat_join_request(m.chat.id, m.from_user.id)
 
+            # Format each tag with bold
+            tags_display = ' / '.join([f"<b>{tag}</b>" for tag in required_tags])
+
             reject_text = (
                 f"🔒 <b>Access Denied ❌</b>\n\n"
                 f"Dear <b>{m.from_user.mention}</b> 🌝\n\n"
                 f"To join <b>{chat.title}</b>, follow these <b>2 Simple Steps</b>:\n\n"
                 f"🔹 <b>Step 1️⃣</b>\n"
-                f"Add one of these tags in your bio: <code>{', '.join(required_tags)}</code>\n\n"
+                f"Add <b>any one</b> of the following tags in your bio:\n"
+                f"{tags_display}\n\n"
                 f"🔹 <b>Step 2️⃣</b>\n"
-                f"After updating your bio, try joining again: <a href='{invite_link}'>Join {chat.title}</a>\n\n"
-                f"I'll approve your request! 😉"
+                f"After updating your bio, try joining again:\n<a href='{invite_link}'>Join {chat.title}</a>\n\n"
+                f"✨ I’ll approve you instantly once I detect the tag. Let's gooo! 😎"
             )
 
             try:
