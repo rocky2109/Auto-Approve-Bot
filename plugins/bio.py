@@ -57,42 +57,6 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
         chat = await client.get_chat(m.chat.id)
         description = chat.description or ""
         required_tags = get_required_tags_from_description(description)
-        
-        if not required_tags:
-            logger.info(f"No required tags for chat {chat.id}")
-            return
-
-        user = await client.get_chat(m.from_user.id)
-        bio = user.bio or ""
-
-        invite_link_obj = await client.create_chat_invite_link(
-            chat_id=m.chat.id,
-            name=f"🔗 {chat.title}",
-            creates_join_request=True
-        )
-        invite_link = invite_link_obj.invite_link
-
-        full_name = f"{m.from_user.first_name or ''} {m.from_user.last_name or ''}".strip()
-        member_count = chat.members_count
-
-        if has_required_tag_in_bio(bio, required_tags):
-            await client.approve_chat_join_request(m.chat.id, m.from_user.id)
-
-            approve_text = (
-                f"🔓 <b>Access Granted ✅</b>\n\n"
-                f"<b><blockquote> Cheers, <a href='https://t.me/Real_Pirates'>{full_name}</a> ! 🥂</blockquote></b>\n"
-                f"Your Request To Join <b><a href='{invite_link}'> {chat.title} </a></b> Has Been Approved! 🎉\n"
-
-
-@Client.on_chat_join_request()
-async def join_request_handler(client: Client, m: ChatJoinRequest):
-    if not NEW_REQ_MODE:
-        return
-
-    try:
-        chat = await client.get_chat(m.chat.id)
-        description = chat.description or ""
-        required_tags = get_required_tags_from_description(description)
 
         if not required_tags:
             logger.info(f"No required tags for chat {chat.id}")
