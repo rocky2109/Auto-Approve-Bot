@@ -75,28 +75,28 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
         full_name = f"{m.from_user.first_name or ''} {m.from_user.last_name or ''}".strip()
         member_count = chat.members_count
 
+        stickers = [
+            "CAACAgUAAxkBAAKcLmf-E2SXmiXe99nF5KuHMMbeBsEoAALbHAACocj4Vkl1jIJ0iWpmHgQ",
+            "CAACAgUAAxkBAAKcH2f94mJ3mIfgQeXmv4j0PlEpIgYMAAJvFAACKP14V1j51qcs1b2wHgQ",
+            "CAACAgUAAxkBAAJLXmf2ThTMZwF8_lu8ZEwzHvRaouKUAAL9FAACiFywV69qth3g-gb4HgQ"
+        ]
+
         if has_required_tag_in_bio(bio, required_tags):
             await client.approve_chat_join_request(m.chat.id, m.from_user.id)
 
             approve_text = (
                 f"🔓 <b>Access Granted ✅</b>\n\n"
-                f"<b><blockquote> Cheers, <a href='https://t.me/Real_Pirates'>{full_name}</a> ! 🥂</blockquote></b>\n"
+                f"<blockquote>Cheers, <a href='https://t.me/Real_Pirates'>{full_name}</a>! 🥂</blockquote>\n"
                 f"Your Request To Join <b><a href='{invite_link}'> {chat.title} </a></b> Has Been Approved! 🎉\n"
                 f"We’re happy to have you with us. 🥰\n\n"
                 f"💎 𝐌𝐞𝐦𝐛𝐞𝐫𝐬 𝐂𝐨𝐮𝐧𝐭: <b>{member_count:,}</b> 🚀\n"
                 f"┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌\n"
                 f"⚠️⚠️⚠️\n"
-                f"<b><i>||If you remove the tag(s) {', '.join(required_tags)} from your bio, you will be removed from the channel. 💀||\n"
-                f"These tags are required to remain a verified member of ≫  {chat.title}.\n"
-                f"Make sure to keep at least one in your Bio to avoid removal. 😉</i></b>\n"
+                f"<b><i>If you remove the tag(s) {', '.join(required_tags)} from your bio, you will be removed from the channel. 💀</i></b>\n"
+                f"<b><i>These tags are required to remain a verified member of ≫  {chat.title}.\n"
+                f"Keep at least one in your Bio to avoid removal. 😉</i></b>\n"
                 f"<blockquote>Supported by <b>➩ @Real_Pirates 🏴‍☠️</b></blockquote>"
             )
-
-            stickers = [
-                "CAACAgUAAxkBAAKcLmf-E2SXmiXe99nF5KuHMMbeBsEoAALbHAACocj4Vkl1jIJ0iWpmHgQ",
-                "CAACAgUAAxkBAAKcH2f94mJ3mIfgQeXmv4j0PlEpIgYMAAJvFAACKP14V1j51qcs1b2wHgQ",
-                "CAACAgUAAxkBAAJLXmf2ThTMZwF8_lu8ZEwzHvRaouKUAAL9FAACiFywV69qth3g-gb4HgQ"
-            ]
 
             try:
                 await client.send_message(m.from_user.id, approve_text, disable_web_page_preview=True)
@@ -113,34 +113,33 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
         else:
             await client.decline_chat_join_request(m.chat.id, m.from_user.id)
 
-            # Format each tag with bold
-            tags_display = ' / '.join([f"<blockquote><code>{tag}</code></blockquote>" for tag in required_tags])
+            tags_display = ' / '.join([f"<code>{tag}</code>" for tag in required_tags])
 
             reject_text = (
                 f"🔒 <b>Access Denied ❌</b>\n\n"
-                f"Dear <b>{m.from_user.mention}</b> 🌝\n\n"
-                f"If You Want To Join ⇙ Quickly ⚡
-                f"<b><blockquote><a href='{invite_link}'>{chat.title}</a></blockquote></b>"
-                f"Follow These 2 Simple Steps 😊</b>:\n\n"
+                f"<b>Dear</b> <a href='tg://user?id={m.from_user.id}'>{full_name}</a> 🌝\n\n"
+                f"If You Want To Join ⇙ Quickly ⚡\n"
+                f"<b><a href='https://t.me/YOUR_RWA_CHANNEL'>💎 RWA BATCH</a></b>\n\n"
+                f"<b>Follow These 2 Simple Steps 😊:</b>\n\n"
                 f"🔹 <b>Step 1️⃣</b>\n"
                 f"<b>Add this tag in your bio</b>\n"
-                f"{tags_display}\n"
+                f"<blockquote>{tags_display}</blockquote>\n"
                 f"Tap to Copy 👆\n\n"
                 f"🔹 <b>Step 2️⃣</b>\n"
-                f"After updating your bio, try joining again:\n<a href='{invite_link}'>Join {chat.title}</a>\n\n"
+                f"After updating your bio, try joining again:\n"
+                f"<a href='{invite_link}'>🔗 Join {chat.title}</a>\n\n"
                 f"✨ I’ll approve you instantly once I detect the tag. Let's gooo! 😎"
             )
 
+            buttons = InlineKeyboardMarkup([
+                [InlineKeyboardButton("📢 Updates", url="https://t.me/II_Way_to_Success_II")],
+                [InlineKeyboardButton("💬 Support", url="https://t.me/GeniusJunctionX")]
+            ])
+
             try:
-                await client.send_message(m.from_user.id, reject_text, disable_web_page_preview=True)
-                await client.send_sticker(
-                    m.from_user.id,
-                    "CAACAgUAAxkBAAKcH2f94mJ3mIfgQeXmv4j0PlEpIgYMAAJvFAACKP14V1j51qcs1b2wHgQ"
-                )
-            except (UserNotMutualContact, PeerIdInvalid):
-                pass
+                await client.send_message(m.from_user.id, reject_text, parse_mode="html", disable_web_page_preview=True, reply_markup=buttons)
+                await client.send_sticker(m.from_user.id, random.choice(stickers))
             except Exception as e:
                 logger.warning(f"Could not DM rejected user: {e}")
-
-    except Exception as e:
-        logger.error(f"Join request handler error: {e}")
+    except Exception as err:
+        logger.error(f"Error in join_request_handler: {err}")
