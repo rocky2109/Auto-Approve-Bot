@@ -117,7 +117,7 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
 
             reject_text = (
                 f"🔒 <b>Access Denied ❌</b>\n\n"
-                f"<b>Dear</b> <a href='tg://user?id={m.from_user.id}'>{full_name}</a> 🌝\n\n"
+                f"Dear <b>{m.from_user.mention}</b> 🌝\n\n"
                 f"If You Want To Join ⇙ Quickly ⚡\n"
                 f"<b><blockquote><a href='{invite_link}'>{chat.title}</a></blockquote></b>"
                 f"<b>Follow These 2 Simple Steps 😊:</b>\n\n"
