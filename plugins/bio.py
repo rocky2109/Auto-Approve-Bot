@@ -118,14 +118,18 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
 
             reject_text = (
                 f"🔒 <b>Access Denied ❌</b>\n\n"
-                f"Dear <b>{m.from_user.mention}</b> 🌝\n\n"
-                f"To join <b><a href='{invite_link}'>{chat.title}</a></b>, follow these <b>2 Simple Steps</b>:\n\n"
-                f"🔹 <b>Step 1️⃣</b>\n"
-                f"Add <b>any one</b> of the following tags in your bio:\n"
+                f"Dear <b>{m.from_user.mention}</b> 🌝 Your Request is Pending...\n\n" 
+                f"if you want To join ⇙ Quickly
+                f"<blockquote><b><a href='{invite_link}'>{chat.title}</a></b></blockquote>"
+                f"follow these <b>2 Simple Steps 😊</b>:\n\n"
+                f" 💡 <b>Step 1️⃣</b>\n"
+                f"Add This 👇 Tag In Your Bio</b>\n"           
                 f"{tags_display}\n\n"
-                f"🔹 <b>Step 2️⃣</b>\n"
-                f"After updating your bio, try joining again:\n<b>{invite_link}</b>\n\n"
-                f"✨ I’ll approve you instantly once I detect the tag. Let's gooo! 😎"
+                f"<i>Tap to Copy 👆</i>"
+                f"𝐀𝐝𝐝 𝐐𝐮𝐢𝐜𝐤𝐥𝐲 𝐢𝐧 <a href='tg://settings'>Your Bio 👀</a>
+                f" 💡 <b>Step 2️⃣</b>\n"
+                f"After updating your bio, try joining again by this Link\n<blockquote><b>{invite_link}</b></blockquote>\n"
+                f"✨ I’ll Approve you instantly if i detect the tag. Let's go! 😉"
             )
 
             try:
