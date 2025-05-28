@@ -119,7 +119,7 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
                 f"🔒 <b>Access Denied ❌</b>\n\n"
                 f"<b>Dear</b> <a href='tg://user?id={m.from_user.id}'>{full_name}</a> 🌝\n\n"
                 f"If You Want To Join ⇙ Quickly ⚡\n"
-                f"<b><a href='https://t.me/YOUR_RWA_CHANNEL'>💎 RWA BATCH</a></b>\n\n"
+                f"<b><blockquote><a href='{invite_link}'>{chat.title}</a></blockquote></b>"
                 f"<b>Follow These 2 Simple Steps 😊:</b>\n\n"
                 f"🔹 <b>Step 1️⃣</b>\n"
                 f"<b>Add this tag in your bio</b>\n"
