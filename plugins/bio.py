@@ -119,7 +119,7 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
             reject_text = (
                 f"🔒 <b>Access Denied ❌</b>\n\n"
                 f"Dear <b>{m.from_user.mention}</b> 🌝 Your Request is Pending...\n\n" 
-                f"if you want To join ⇙ Quickly
+                f"if you want To join ⇙ Quickly"
                 f"<blockquote><b><a href='{invite_link}'>{chat.title}</a></b></blockquote>"
                 f"follow these <b>2 Simple Steps 😊</b>:\n\n"
                 f" 💡 <b>Step 1️⃣</b>\n"
