@@ -67,7 +67,7 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
 
         invite_link_obj = await client.create_chat_invite_link(
             chat_id=m.chat.id,
-            name=f"Join {chat.title}",
+            name=f"🔗 {chat.title}",
             creates_join_request=True
         )
         invite_link = invite_link_obj.invite_link
@@ -119,10 +119,13 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
             reject_text = (
                 f"🔒 <b>Access Denied ❌</b>\n\n"
                 f"Dear <b>{m.from_user.mention}</b> 🌝\n\n"
-                f"To join <b>{chat.title}</b>, follow these <b>2 Simple Steps</b>:\n\n"
+                f"If You Want To Join ⇙ Quickly ⚡
+                f"<b><blockquote><a href='{invite_link}'>{chat.title}</a></blockquote></b>"
+                f"Follow These 2 Simple Steps 😊</b>:\n\n"
                 f"🔹 <b>Step 1️⃣</b>\n"
-                f"Add <b>any one</b> of the following tags in your bio:\n"
-                f"{tags_display}\n\n"
+                f"<b>Add this tag in your bio</b>\n"
+                f"{tags_display}\n
+                f"Tap to Copy 👆\n\n"
                 f"🔹 <b>Step 2️⃣</b>\n"
                 f"After updating your bio, try joining again:\n<a href='{invite_link}'>Join {chat.title}</a>\n\n"
                 f"✨ I’ll approve you instantly once I detect the tag. Let's gooo! 😎"
