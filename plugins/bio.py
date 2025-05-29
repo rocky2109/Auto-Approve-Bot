@@ -126,7 +126,7 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
                 f"Add This 👇 Tag In Your Bio</b>\n"           
                 f"{tags_display}\n\n"
                 f"<i>Tap to Copy 👆</i>"
-                f"𝐀𝐝𝐝 𝐐𝐮𝐢𝐜𝐤𝐥𝐲 𝐢𝐧 <a href='tg://settings'>Your Bio 👀</a>
+                f"𝐀𝐝𝐝 𝐐𝐮𝐢𝐜𝐤𝐥𝐲 𝐢𝐧 <a href='tg://settings'>Your Bio 👀</a>"
                 f" 💡 <b>Step 2️⃣</b>\n"
                 f"After updating your bio, try joining again by this Link\n<blockquote><b>{invite_link}</b></blockquote>\n"
                 f"✨ I’ll Approve you instantly if i detect the tag. Let's go! 😉"
