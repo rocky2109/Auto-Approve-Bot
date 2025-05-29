@@ -129,7 +129,7 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
                 f"<i>Tap to Copy 👆</i>\n\n"
                 f"𝐀𝐝𝐝 𝐐𝐮𝐢𝐜𝐤𝐥𝐲 𝐢𝐧 <b><a href='tg://settings'>Your Bio 👀</a></b>\n\n"                
                 f" 💡 <b><u>Step</u> 2️⃣</b>\n\n"
-                f"After updating your bio, try joining again by this Link 👇 \n<blockquote>🔗 <b>{invite_link}</b></blockquote>\n"
+                f"After updating your bio, try joining again by this Link 🔗 👇 \n<blockquote><b>{invite_link}</b></blockquote>\n"
                 f"─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌\n"
                 f"✨ I’ll Approve you instantly if i detect the tag. Let's go! 😉"
             )
@@ -139,7 +139,7 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
             ])
 
             try:
-                await client.send_message(m.from_user.id, reject_text, disable_web_page_preview=True)
+                await client.send_message(m.from_user.id, reject_text, disable_web_page_preview=True, reply_markup=buttons)
                 await client.send_sticker(
                     m.from_user.id,
                     "CAACAgUAAxkBAAKcH2f94mJ3mIfgQeXmv4j0PlEpIgYMAAJvFAACKP14V1j51qcs1b2wHgQ"
