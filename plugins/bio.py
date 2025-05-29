@@ -123,7 +123,7 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
                 f"<blockquote><b><a href='{invite_link}'>{chat.title}</a></b></blockquote>"
                 f"follow these <b>2 Simple Steps 😊</b>:\n"
                 f"─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌\n"
-                f" 💡 <b><u>Step</u>1️⃣</b>\n\n"
+                f" 💡 <b><u>Step</u> 1️⃣</b>\n\n"
                 f"Add This 👇 Tag in <b>Your Bio</b>\n"           
                 f"{tags_display}\n"
                 f"<i>Tap to Copy 👆</i>\n\n"
@@ -134,16 +134,16 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
                 f"✨ I’ll Approve you instantly if i detect the tag. Let's go! 😉"
             )
             buttons = InlineKeyboardMarkup([
-                [InlineKeyboardButton("📢 Updates", url="https://t.me/II_Way_to_Success_II")],
-                [InlineKeyboardButton("💬 Support", url="https://t.me/GeniusJunctionX")]
+                [
+                    InlineKeyboardButton("📢 Updates", url="https://t.me/II_Way_to_Success_II"),
+                    InlineKeyboardButton("💬 Support", url="https://t.me/GeniusJunctionX")
+                ]
             ])
 
             try:
                 await client.send_message(m.from_user.id, reject_text, disable_web_page_preview=True, reply_markup=buttons)
-                await client.send_sticker(
-                    m.from_user.id,
-                    "CAACAgUAAxkBAAKcH2f94mJ3mIfgQeXmv4j0PlEpIgYMAAJvFAACKP14V1j51qcs1b2wHgQ"
-                )
+                await client.send_sticker(m.from_user.id, random.choice(stickers))
+                
             except (UserNotMutualContact, PeerIdInvalid):
                 pass
             except Exception as e:
