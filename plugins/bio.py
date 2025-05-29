@@ -122,17 +122,21 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
                 f"if you want To join ⇙ Quickly"
                 f"<blockquote><b><a href='{invite_link}'>{chat.title}</a></b></blockquote>"
                 f"follow these <b>2 Simple Steps 😊</b>:\n"
-                f"─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌\n"
+                f"─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌\n"
                 f" 💡 <b><u>Step</u>1️⃣</b>\n\n"
-                f"Add This 👇 Tag In Your Bio</b>\n"           
+                f"Add This 👇 Tag in <b>Your Bio</b>\n"           
                 f"{tags_display}\n"
                 f"<i>Tap to Copy 👆</i>\n\n"
-                f"𝐀𝐝𝐝 𝐐𝐮𝐢𝐜𝐤𝐥𝐲 𝐢𝐧 <a href='tg://settings'>Your Bio 👀</a>\n\n"                
-                f" 💡 <b><u>Step</u> 2️⃣</b>\n"
-                f"After updating your bio, try joining again by this Link\n<blockquote><b>{invite_link}</b></blockquote>\n"
-                f"─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌\n"
+                f"𝐀𝐝𝐝 𝐐𝐮𝐢𝐜𝐤𝐥𝐲 𝐢𝐧 <b><a href='tg://settings'>Your Bio 👀</a></b>\n\n"                
+                f" 💡 <b><u>Step</u> 2️⃣</b>\n\n"
+                f"After updating your bio, try joining again by this Link 👇 \n<blockquote>🔗 <b>{invite_link}</b></blockquote>\n"
+                f"─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌\n"
                 f"✨ I’ll Approve you instantly if i detect the tag. Let's go! 😉"
             )
+            buttons = InlineKeyboardMarkup([
+                [InlineKeyboardButton("📢 Updates", url="https://t.me/II_Way_to_Success_II")],
+                [InlineKeyboardButton("💬 Support", url="https://t.me/GeniusJunctionX")]
+            ])
 
             try:
                 await client.send_message(m.from_user.id, reject_text, disable_web_page_preview=True)
