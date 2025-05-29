@@ -17,7 +17,7 @@ QUOTES = [
     "⏳ The pain you feel today will be the strength you feel tomorrow."
 ]
 
-# 🔒 Set your quote posting target channel here
+# 🔒 Set your quote posting target channel here (make sure it's correct)
 TARGET_CHANNEL_ID = -1002673901150  # Replace this with your actual channel ID
 
 # ✅ Auto send random quote every 5 minutes
@@ -28,18 +28,17 @@ async def auto_quote_sender(app: Client):
             quote = random.choice(QUOTES)
             await app.send_message(
                 chat_id=TARGET_CHANNEL_ID,
-                text=f"📝 <b>Quote of the Moment</b>\n\n<blockquote>{quote}</blockquote>",
+                text=f"📝 Quote of the Moment\n\n{quote}"
             )
         except Exception as e:
             print(f"[Quote Error] {e}")
-        await asyncio.sleep(30)  # 5 minutes
-        
+        await asyncio.sleep(300)  # 5 minutes = 300 seconds
 
-# 🔘 Command handler for /quote
-@Client.on_message(filters.command("quote") & filters.private | filters.group | filters.channel)
+# 🔘 /quote command handler (only when /quote is used)
+@Client.on_message(filters.command("quote") & (filters.private | filters.group | filters.channel))
 async def send_quote(_, message: Message):
     quote = random.choice(QUOTES)
     await message.reply_text(
-        f"📝 <b>Your Quote</b>\n\n<blockquote>{quote}</blockquote>",
+        f"📝 Your Quote\n\n{quote}",
         disable_web_page_preview=True
     )
