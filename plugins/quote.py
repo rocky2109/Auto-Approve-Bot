@@ -4,7 +4,7 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 
 # Your target channel ID or @username for auto-posting quotes
-TARGET_CHANNEL = "your_channel_username_or_id"  # e.g. "@MyChannel" or -1001234567890
+TARGET_CHANNEL = "-1002673901150"  # e.g. "@MyChannel" or -1001234567890
 
 # List of cool quotes 😎
 QUOTES = [
