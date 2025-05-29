@@ -23,8 +23,7 @@ QUOTES = [
 async def send_quote(client: Client, message: Message):
     quote = random.choice(QUOTES)
     await message.reply_text(
-        text=quote,
-        parse_mode="html",
+        text=quote,       
         disable_web_page_preview=True
     )
 
@@ -37,7 +36,6 @@ async def auto_quote_sender(app: Client):
             await app.send_message(
                 chat_id=TARGET_CHANNEL,
                 text=quote,
-                parse_mode="html",
                 disable_web_page_preview=True
             )
         except Exception as e:
