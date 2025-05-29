@@ -18,7 +18,7 @@ QUOTES = [
 ]
 
 # 🔒 Set your quote posting target channel here
-TARGET_CHANNEL_ID = -1001234567890  # Replace this with your actual channel ID
+TARGET_CHANNEL_ID = -1002673901150  # Replace this with your actual channel ID
 
 # ✅ Auto send random quote every 5 minutes
 async def auto_quote_sender(app: Client):
