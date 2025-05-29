@@ -1,12 +1,16 @@
 import os
-from pyrogram import Client
-from aiohttp import web
-from config import API_ID, API_HASH, BOT_TOKEN
 import sqlite3
 import warnings
+import asyncio
+from pyrogram import Client
+from aiohttp import web
+
+from config import API_ID, API_HASH, BOT_TOKEN
+from plugins.quote import auto_quote_sender  # 🚀 Import quote task
 
 warnings.filterwarnings("ignore", message=".*message.forward_date.*")
 
+# Initialize SQLite DB
 conn = sqlite3.connect("bot_data.db", check_same_thread=False)
 cur = conn.cursor()
 cur.execute("""
@@ -17,7 +21,7 @@ CREATE TABLE IF NOT EXISTS channels (
 """)
 conn.commit()
 
-# Define routes for aiohttp web server
+# Define aiohttp route for health check
 r = web.RouteTableDef()
 
 @r.get("/", allow_head=True)
@@ -29,6 +33,7 @@ async def wsrvr():
     wa.add_routes(r)
     return wa
 
+# Main Bot Class
 class Bot(Client):
     def __init__(self):
         super().__init__(
@@ -49,10 +54,13 @@ class Bot(Client):
         port = int(os.environ.get("PORT", 8080)) or 8080
         await web.TCPSite(app, ba, port).start()
         
-        # Start Pyrogram client
+        # Start Pyrogram Client
         await super().start()
         me = await self.get_me()
         self.username = '@' + me.username
+
+        # ✅ Start auto quote task in background
+        asyncio.create_task(auto_quote_sender(self))
 
         print('Bot Started Powered By @Real_Pirates')
 
