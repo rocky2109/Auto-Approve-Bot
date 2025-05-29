@@ -7,6 +7,8 @@ from aiohttp import web
 
 from config import API_ID, API_HASH, BOT_TOKEN
 
+# ✅ Import auto_quote_sender
+from plugins.quote.quote import auto_quote_sender  # 👈 Add this line
 
 warnings.filterwarnings("ignore", message=".*message.forward_date.*")
 
@@ -60,7 +62,7 @@ class Bot(Client):
         self.username = '@' + me.username
 
         # ✅ Start auto quote task in background
-        
+        asyncio.create_task(auto_quote_sender(self))  # 👈 Add this line
 
         print('Bot Started Powered By @Real_Pirates')
 
