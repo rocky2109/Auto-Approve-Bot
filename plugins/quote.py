@@ -3,41 +3,43 @@ import random
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-# Your target channel ID or @username for auto-posting quotes
-TARGET_CHANNEL = "-1002673901150"  # e.g. "@MyChannel" or -1001234567890
-
-# List of cool quotes 😎
+# 🔁 List of Cool Quotes
 QUOTES = [
-    "💡 <b>“Success is not final, failure is not fatal: It is the courage to continue that counts.”</b>\n— Winston Churchill",
-    "🚀 <b>“Don’t watch the clock; do what it does. Keep going.”</b>\n— Sam Levenson",
-    "🔥 <b>“The way to get started is to quit talking and begin doing.”</b>\n— Walt Disney",
-    "🌟 <b>“Push yourself, because no one else is going to do it for you.”</b>",
-    "🎯 <b>“You don’t need to see the whole staircase, just take the first step.”</b>\n— Martin Luther King Jr.",
-    "💎 <b>“Dream it. Wish it. Do it.”</b>",
-    "🏆 <b>“Great things never come from comfort zones.”</b>",
-    "🧠 <b>“Believe you can and you’re halfway there.”</b>\n— Theodore Roosevelt"
+    "✨ Great things never come from comfort zones.",
+    "🔥 Push yourself, because no one else is going to do it for you.",
+    "🚀 Don't stop until you're proud.",
+    "💡 Success is what happens after you survive all your mistakes.",
+    "🌟 Believe in yourself and magic will happen.",
+    "🎯 The harder you work for something, the greater you’ll feel when you achieve it.",
+    "🌈 Stay positive, work hard, and make it happen!",
+    "🧠 Think big. Trust yourself. Make it happen.",
+    "💪 Discipline is doing what needs to be done, even if you don’t want to.",
+    "⏳ The pain you feel today will be the strength you feel tomorrow."
 ]
 
-# Quote command: works in PM, groups, channels
-@Client.on_message(filters.command("quote") & filters.private | filters.group | filters.channel)
-async def send_quote(client: Client, message: Message):
-    quote = random.choice(QUOTES)
-    await message.reply_text(
-        text=quote,       
-        disable_web_page_preview=True
-    )
+# 🔒 Set your quote posting target channel here
+TARGET_CHANNEL_ID = -1001234567890  # Replace this with your actual channel ID
 
-# Auto sender task
+# ✅ Auto send random quote every 5 minutes
 async def auto_quote_sender(app: Client):
-    await app.wait_until_ready()
+    await asyncio.sleep(10)  # Wait a bit for startup
     while True:
         try:
             quote = random.choice(QUOTES)
             await app.send_message(
-                chat_id=TARGET_CHANNEL,
-                text=quote,
-                disable_web_page_preview=True
+                chat_id=TARGET_CHANNEL_ID,
+                text=f"📝 <b>Quote of the Moment</b>\n\n<blockquote>{quote}</blockquote>",
             )
         except Exception as e:
-            print(f"[Auto Quote Error] {e}")
-        await asyncio.sleep(300)  # 5 minutes
+            print(f"[Quote Error] {e}")
+        await asyncio.sleep(30)  # 5 minutes
+        
+
+# 🔘 Command handler for /quote
+@Client.on_message(filters.command("quote") & filters.private | filters.group | filters.channel)
+async def send_quote(_, message: Message):
+    quote = random.choice(QUOTES)
+    await message.reply_text(
+        f"📝 <b>Your Quote</b>\n\n<blockquote>{quote}</blockquote>",
+        disable_web_page_preview=True
+    )
