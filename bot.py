@@ -6,7 +6,7 @@ from pyrogram import Client
 from aiohttp import web
 
 from config import API_ID, API_HASH, BOT_TOKEN
-from plugins.quote import auto_quote_sender  # 🚀 Import quote task
+
 
 warnings.filterwarnings("ignore", message=".*message.forward_date.*")
 
