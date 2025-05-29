@@ -114,7 +114,7 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
             await client.decline_chat_join_request(m.chat.id, m.from_user.id)
 
             # Format each tag with bold
-            tags_display = ' / '.join([f"<blockquote><code>{tag}</code></blockquote>" for tag in required_tags])
+            tags_display = ''.join([f"<blockquote><code>{tag}</code></blockquote>" for tag in required_tags])
 
             reject_text = (
                 f"🔒 <b>Access Denied ❌</b>\n\n"
