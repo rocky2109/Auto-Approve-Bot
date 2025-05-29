@@ -17,12 +17,12 @@ QUOTES = [
     "⏳ The pain you feel today will be the strength you feel tomorrow."
 ]
 
-# 🔒 Set your quote posting target channel here (make sure it's correct)
-TARGET_CHANNEL_ID = -1002673901150  # Replace this with your actual channel ID
+# 🔒 Your target channel ID (replace with your real one)
+TARGET_CHANNEL_ID = -1002673901150
 
-# ✅ Auto send random quote every 5 minutes
+# ✅ Quote auto-sender (every 5 minutes)
 async def auto_quote_sender(app: Client):
-    await asyncio.sleep(10)  # Wait a bit for startup
+    await asyncio.sleep(10)  # Allow bot to fully start
     while True:
         try:
             quote = random.choice(QUOTES)
@@ -32,11 +32,12 @@ async def auto_quote_sender(app: Client):
             )
         except Exception as e:
             print(f"[Quote Error] {e}")
-        await asyncio.sleep(300)  # 5 minutes = 300 seconds
+        await asyncio.sleep(300)  # 5 minutes
+        
 
-# 🔘 /quote command handler (only when /quote is used)
-@Client.on_message(filters.command("quote") & (filters.private | filters.group | filters.channel))
-async def send_quote(_, message: Message):
+# 🔘 Handle /quote only in private chat (bot PM only)
+@Client.on_message(filters.command("quote") & filters.private)
+async def send_quote_pm(client: Client, message: Message):
     quote = random.choice(QUOTES)
     await message.reply_text(
         f"📝 Your Quote\n\n{quote}",
