@@ -114,7 +114,7 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
             await client.decline_chat_join_request(m.chat.id, m.from_user.id)
 
             # Format each tag with bold
-            tags_display = ''.join([f"<blockquote><code>{tag}</code></blockquote>" for tag in required_tags])
+            tags_display = '\n'.join([f"<blockquote><code>{tag}</code></blockquote>" for tag in required_tags])
 
             reject_text = (
                 f"🔒 <b>Access Denied ❌</b>\n\n"
@@ -125,8 +125,8 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
                 f" 💡 <b>Step 1️⃣</b>\n"
                 f"Add This 👇 Tag In Your Bio</b>\n"           
                 f"{tags_display}\n\n"
-                f"<i>Tap to Copy 👆</i>"
-                f"𝐀𝐝𝐝 𝐐𝐮𝐢𝐜𝐤𝐥𝐲 𝐢𝐧 <a href='tg://settings'>Your Bio 👀</a>"
+                f"<i>Tap to Copy 👆</i>\n"
+                f"𝐀𝐝𝐝 𝐐𝐮𝐢𝐜𝐤𝐥𝐲 𝐢𝐧 <a href='tg://settings'>Your Bio 👀</a>\n"
                 f" 💡 <b>Step 2️⃣</b>\n"
                 f"After updating your bio, try joining again by this Link\n<blockquote><b>{invite_link}</b></blockquote>\n"
                 f"✨ I’ll Approve you instantly if i detect the tag. Let's go! 😉"
