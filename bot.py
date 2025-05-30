@@ -6,9 +6,7 @@ from pyrogram import Client
 from aiohttp import web
 
 from config import API_ID, API_HASH, BOT_TOKEN
-
-# ✅ Import auto_quote_sender
-from plugins.quote.quote import auto_quote_sender  # 👈 Add this line
+from plugins.quote.quote import auto_quote_sender  # ✅ Import properly
 
 warnings.filterwarnings("ignore", message=".*message.forward_date.*")
 
@@ -62,13 +60,13 @@ class Bot(Client):
         self.username = '@' + me.username
 
         # ✅ Start auto quote task in background
-        asyncio.create_task(auto_quote_sender(self))  # 👈 Add this line
+        asyncio.create_task(auto_quote_sender(self))
 
-        print('Bot Started Powered By @Real_Pirates')
+        print(f'Bot Started as {self.username} 🚀')
 
     async def stop(self, *args):
         await super().stop()
-        print('Bot Stopped Bye')
+        print('Bot Stopped. Bye 👋')
 
 # Run the bot
 Bot().run()
