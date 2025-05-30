@@ -43,7 +43,7 @@ async def auto_quote_sender(app: Client):
             valid = [cat for cat in categories if os.path.exists(os.path.join(DATA_DIR, f"{cat}.json"))]
             if not valid:
                 print("❌ No valid quote categories found.")
-                await asyncio.sleep(300)
+                await asyncio.sleep(30)
                 continue
 
             category = random.choice(valid)
@@ -56,7 +56,7 @@ async def auto_quote_sender(app: Client):
                 print(f"[✅] Sent quote from '{category}'")
         except Exception as e:
             print(f"[❌ Auto Quote Error] {e}")
-        await asyncio.sleep(300)  # Every 5 minutes
+        await asyncio.sleep(30)  # Every 5 minutes
 
 # 🔘 /quote command - Show buttons for available categories
 @Client.on_message(filters.command("quote") & filters.private)
