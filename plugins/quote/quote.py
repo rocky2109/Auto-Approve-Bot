@@ -38,11 +38,12 @@ def get_random_quote(category: str) -> str:
             return "⚠️ No quotes available or invalid format."
             
         quote_data = random.choice(quotes)
-        if not isinstance(quote_data, dict) or "quote" not in quote_data:
-            return "⚠️ Invalid quote format in JSON file."
+        
+        # Simplified to handle only the quote text
+        if isinstance(quote_data, dict):
+            return f"\"{quote_data.get('quote', str(quote_data))}\""
+        return f"\"{str(quote_data)}\""
             
-        author = quote_data.get("author", "Unknown")
-        return f"“{quote_data['quote']}”\n\n— {author}"
     except json.JSONDecodeError:
         return "⚠️ Invalid JSON format in quotes file."
     except Exception as e:
