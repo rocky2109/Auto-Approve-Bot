@@ -66,7 +66,7 @@ async def auto_quote_sender(app: Client):
                 await app.send_message(
                     chat_id=TARGET_CHANNEL_ID,
                     text=f"📝 {category.capitalize()} Quote\n\n
-                    <b><blockquote>{quote}</blockquote></b>"
+                    f"<b><blockquote>{quote}</blockquote></b>"
                 )
                 print(f"[✅] Sent quote from '{category}'")
         except Exception as e:
