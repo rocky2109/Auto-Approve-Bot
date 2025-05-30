@@ -153,7 +153,7 @@ async def auto_quote_sender(app: Client):
                 )
         except Exception as e:
             print(f"[❌ Auto Quote Error] {str(e)}")
-        await asyncio.sleep(300)  # 5 minutes
+        await asyncio.sleep(30)  # 5 minutes
 
 # Command handlers
 @Client.on_message(filters.command("quote") & filters.private)
