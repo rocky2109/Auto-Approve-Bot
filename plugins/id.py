@@ -3,22 +3,38 @@ from pyrogram.types import Message
 
 @Client.on_message(filters.command("id"))
 async def id_command_handler(client, message: Message):
-    text = ""
+    lines = []
 
-    # 1. Chat ID (group/channel/PM)
-    text += f"**Chat ID:** `{message.chat.id}`\n"
+    # 🆔 Chat ID
+    lines.append(f"📢 **Chat ID:** `{message.chat.id}`")
 
-    # 2. From user ID (if available)
+    # 🙋‍♂️ From User ID
     if message.from_user:
-        text += f"**Your ID:** `{message.from_user.id}`\n"
+        user = message.from_user
+        name = f"{user.first_name} {user.last_name or ''}".strip()
+        lines.append(f"🙋‍♂️ **Your ID:** `{user.id}`")
+        lines.append(f"🧑‍💼 **Your Name:** `{name}`")
+        if user.username:
+            lines.append(f"🔗 **Username:** `@{user.username}`")
 
-    # 3. Replied user ID (if replying to someone)
+    # 🔁 Replied User
     if message.reply_to_message and message.reply_to_message.from_user:
-        replied_id = message.reply_to_message.from_user.id
-        text += f"**Replied User ID:** `{replied_id}`\n"
+        replied_user = message.reply_to_message.from_user
+        rep_name = f"{replied_user.first_name} {replied_user.last_name or ''}".strip()
+        lines.append("\n📥 **Replied To:**")
+        lines.append(f"   ┗ 🆔 `{replied_user.id}`")
+        lines.append(f"   ┗ 👤 `{rep_name}`")
+        if replied_user.username:
+            lines.append(f"   ┗ 🔗 `@{replied_user.username}`")
 
-    # 4. Forwarded user ID
+    # 🔄 Forwarded User
     if message.forward_from:
-        text += f"**Forwarded From User ID:** `{message.forward_from.id}`\n"
+        fwd_user = message.forward_from
+        fwd_name = f"{fwd_user.first_name} {fwd_user.last_name or ''}".strip()
+        lines.append("\n📤 **Forwarded From:**")
+        lines.append(f"   ┗ 🆔 `{fwd_user.id}`")
+        lines.append(f"   ┗ 👤 `{fwd_name}`")
+        if fwd_user.username:
+            lines.append(f"   ┗ 🔗 `@{fwd_user.username}`")
 
-    await message.reply(text)
+    await message.reply_text("\n".join(lines), quote=True)
