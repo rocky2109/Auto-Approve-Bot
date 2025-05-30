@@ -164,7 +164,7 @@ async def quote_menu(client: Client, message: Message):
         return
 
     buttons = [
-        [InlineKeyboardButton(f"📌 {cat.capitalize()}", callback_data=f"quote_{cat}"),
+        [InlineKeyboardButton(f"📌 {cat.capitalize()}", callback_data=f"quote_{cat}")],
         [InlineKeyboardButton("🤖 AI Quote", callback_data="ai_quote_menu")]
     ]
     
