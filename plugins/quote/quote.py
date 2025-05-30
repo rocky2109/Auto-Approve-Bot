@@ -30,7 +30,7 @@ def get_random_quote(category: str) -> str:
         if not quotes:
             return "⚠️ No quotes available."
         quote_data = random.choice(quotes)
-        return f"“{quote_data['quote']}”\n\n— {quote_data['author']}"
+        return f"“{quote_data['quote']}"
     except Exception as e:
         return f"⚠️ Error reading quote file: {e}"
 
