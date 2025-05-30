@@ -120,7 +120,7 @@ async def auto_quote_sender(app: Client):
             if not quote.startswith("⚠️"):
                 await app.send_message(
                     chat_id=TARGET_CHANNEL_ID,
-                    text=f"📝 {category.capitalize()} Quote\n\n"
+                    text=f"❝ {category.capitalize()} Quote ❞</b>\n\n"
                     f"<blockquote>❁┉━┉━┉━┉┉━┉━┉━┉┉━┉━┉❁</blockquote>\n"
                     f"<b><blockquote>{get_random_emoji()} {quote} {get_random_emoji()}</blockquote></b>\n"
                     f"<blockquote>❁┉━┉━┉━┉┉━┉━┉━┉┉━┉━┉❁</blockquote>\n\n"
