@@ -54,13 +54,13 @@ def get_random_emoji():
     
     # Select 1-3 random emojis from any category
     all_emojis = [emoji for category in emoji_categories.values() for emoji in category]
-    return ''.join(random.choices(all_emojis, k=random.randint(1, 3)))
+    return ''.join(random.choices(all_emojis, k=random.randint(1, 2)))
     
     # Combine all emojis into one list
     all_emojis = [emoji for category in emoji_categories.values() for emoji in category]
     
     # Return 1-3 random emojis
-    return ''.join(random.choices(all_emojis, k=random.randint(1, 3)))
+    return ''.join(random.choices(all_emojis, k=random.randint(1, 2)))
 
 # Example usage in your quote function
 def get_random_quote(category: str) -> str:
