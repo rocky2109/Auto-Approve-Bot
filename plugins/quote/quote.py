@@ -12,6 +12,61 @@ TARGET_CHANNEL_ID = -1002673901150  # ✅ Replace with your actual channel ID
 # 📂 Directory containing quote JSON files (motivation.json, inspiration.json, etc.)
 DATA_DIR = Path(__file__).parent / "quotes"
 
+def get_random_emoji():
+    emoji_categories = {
+        'stars': ['✨', '🌟', '⭐', '💫', '☄️', '🌠'],
+        'fire': ['🔥', '🎇', '🎆', '🧨', '💥'],
+        'hands': ['👏', '🙌', '👍', '✊', '🤝', '🫶'],
+        'symbols': ['💯', '⚡', '🔄', '♻️', '✅', '✔️'],
+        'nature': ['🌱', '🌲', '🌞', '🌈', '🌊'],
+        'objects': ['🏆', '🎯', '⏳', '⌛', '🔑', '💎'],
+        'faces': ['😘', '🤩', '😎', '😈', '🫡', '😊', '💀', '❤️‍🔥']
+        # Achievement
+        'trophies': ['🏆', '🥇', '🥈', '🥉', '🎖️', '🏅', '📈', '📊'],
+        
+        # Energy & Power
+        'energy': ['⚡', '💪', '🦾', '🚀', '🧠', '💥', '☄️'],
+        
+        # Success Symbols
+        'success': ['💰', '💎', '👑', '🎯', '🔑', '🗝️', '🏁', '🚩'],
+        
+        # Growth & Progress
+        'growth': ['🌱', '🌿', '🌲', '🌻', '🌞', '🌊', '🌀'],
+        
+        # Time & Focus
+        'time': ['⏳', '⌛', '⏱️', '🕰️', '⏰', '🔔', '🗓️'],
+        
+        # Celebration
+        'celebration': ['🎉', '🎊', '🥳', '🎇', '🎆', '✨', '🌟', '⭐'],
+        
+        # Determination
+        'determination': ['💢', '❕', '❗', '‼️', '🔥', '🧗', '🏋️', '🤺'],
+        
+        # Positivity
+        'positivity': ['❤️', '🫶', '☀️', '☮️', '☯️', '🕉️', '🙏', '♾️'],
+        
+        # Action
+        'action': ['🏃', '🚴', '🧗', '🤾', '🏋️', '🤸', '⛹️', '🤼'],
+        
+        # Mindset
+        'mindset': ['🧘', '🫁', '👁️', '🔭', '🕵️', '💭', '💡', '🔎']
+    }
+    
+    # Select 1-3 random emojis from any category
+    all_emojis = [emoji for category in emoji_categories.values() for emoji in category]
+    return ''.join(random.choices(all_emojis, k=random.randint(1, 3)))
+    
+    # Combine all emojis into one list
+    all_emojis = [emoji for category in emoji_categories.values() for emoji in category]
+    
+    # Return 1-3 random emojis
+    return ''.join(random.choices(all_emojis, k=random.randint(1, 3)))
+
+# Example usage in your quote function
+def get_random_quote(category: str) -> str:
+    # [previous code...]
+    quote_text = str(quote_data)  # Your existing quote extraction logic
+    return f"{get_random_emoji()} {quote_text} {get_random_emoji()}"
 # 🧠 Dynamically list all categories based on files in the directory
 def get_all_categories():
     try:
@@ -67,9 +122,9 @@ async def auto_quote_sender(app: Client):
                     chat_id=TARGET_CHANNEL_ID,
                     text=f"📝 {category.capitalize()} Quote\n\n"
                     f"<blockquote>❁┉━┉━┉━┉┉━┉━┉━┉┉━┉━┉❁</blockquote>\n"
-                    f"<b><blockquote>{quote}</blockquote></b>\n"
+                    f"<b><blockquote>{get_random_emoji()} {quote} {get_random_emoji()}</blockquote></b>\n"
                     f"<blockquote>❁┉━┉━┉━┉┉━┉━┉━┉┉━┉━┉❁</blockquote>\n\n"
-                    f"<blockquote><b>@II_LevelUP_II 🔥</b></blockquote>"
+                    f"<blockquote><b>@II_LevelUP_II {get_random_emoji()}</b></blockquote>"
                 )
                 print(f"[✅] Sent quote from '{category}'")
         except Exception as e:
