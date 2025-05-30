@@ -66,9 +66,9 @@ async def auto_quote_sender(app: Client):
                 await app.send_message(
                     chat_id=TARGET_CHANNEL_ID,
                     text=f"📝 {category.capitalize()} Quote\n\n"
-                    f"<b><blockquote>❁┉━┉━┉━┉┉━┉━┉━┉┉━┉━┉❁</blockquote></b>"
-                    f"<b><blockquote>{quote}</blockquote></b>"
-                    f"<b><blockquote>❁┉━┉━┉━┉┉━┉━┉━┉┉━┉━┉❁</blockquote></b>"
+                    f"<b><blockquote>❁┉━┉━┉━┉┉━┉━┉━┉┉━┉━┉❁</blockquote></b>\n"
+                    f"<b><blockquote>{quote}</blockquote></b>\n"
+                    f"<b><blockquote>❁┉━┉━┉━┉┉━┉━┉━┉┉━┉━┉❁</blockquote></b>\n\n"
                     f"<blockquote><b>@II_LevelUP_II 🔥</b></blockquote>"
                 )
                 print(f"[✅] Sent quote from '{category}'")
