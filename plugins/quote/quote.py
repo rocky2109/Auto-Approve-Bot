@@ -2,6 +2,7 @@ import asyncio
 import json
 import os
 import random
+from pathlib import Path
 from pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 
@@ -9,30 +10,43 @@ from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, 
 TARGET_CHANNEL_ID = -1002673901150  # ✅ Replace with your actual channel ID
 
 # 📂 Directory containing quote JSON files (motivation.json, inspiration.json, etc.)
-DATA_DIR = os.path.join(os.path.dirname(__file__), "quotes")
+DATA_DIR = Path(__file__).parent / "quotes"
 
 # 🧠 Dynamically list all categories based on files in the directory
 def get_all_categories():
-    return [
-        os.path.splitext(file)[0]
-        for file in os.listdir(DATA_DIR)
-        if file.endswith(".json")
-    ]
+    try:
+        return [
+            file.stem
+            for file in DATA_DIR.glob("*.json")
+            if file.is_file()
+        ]
+    except Exception as e:
+        print(f"Error getting categories: {e}")
+        return []
 
 # 🔍 Load random quote from selected category
 def get_random_quote(category: str) -> str:
-    file_path = os.path.join(DATA_DIR, f"{category}.json")
-    if not os.path.exists(file_path):
+    file_path = DATA_DIR / f"{category}.json"
+    if not file_path.exists():
         return "⚠️ No quotes found for this category."
+    
     try:
         with open(file_path, "r", encoding="utf-8") as f:
             quotes = json.load(f)
-        if not quotes:
-            return "⚠️ No quotes available."
+        
+        if not quotes or not isinstance(quotes, list):
+            return "⚠️ No quotes available or invalid format."
+            
         quote_data = random.choice(quotes)
-        return f"“{quote_data['quote']}"
+        if not isinstance(quote_data, dict) or "quote" not in quote_data:
+            return "⚠️ Invalid quote format in JSON file."
+            
+        author = quote_data.get("author", "Unknown")
+        return f"“{quote_data['quote']}”\n\n— {author}"
+    except json.JSONDecodeError:
+        return "⚠️ Invalid JSON format in quotes file."
     except Exception as e:
-        return f"⚠️ Error reading quote file: {e}"
+        return f"⚠️ Error reading quote file: {str(e)}"
 
 # 🔁 Auto send random quote every 5 minutes to the target channel
 async def auto_quote_sender(app: Client):
@@ -40,27 +54,26 @@ async def auto_quote_sender(app: Client):
     while True:
         try:
             categories = get_all_categories()
-            valid = [cat for cat in categories if os.path.exists(os.path.join(DATA_DIR, f"{cat}.json"))]
-            if not valid:
+            if not categories:
                 print("❌ No valid quote categories found.")
                 await asyncio.sleep(30)
                 continue
 
-            category = random.choice(valid)
+            category = random.choice(categories)
             quote = get_random_quote(category)
-            if "⚠️" not in quote:
+            if not quote.startswith("⚠️"):
                 await app.send_message(
                     chat_id=TARGET_CHANNEL_ID,
-                    text=f"📝 Quote of the Moment\n\n{quote}"
+                    text=f"📝 {category.capitalize()} Quote\n\n{quote}"
                 )
                 print(f"[✅] Sent quote from '{category}'")
         except Exception as e:
-            print(f"[❌ Auto Quote Error] {e}")
+            print(f"[❌ Auto Quote Error] {str(e)}")
         await asyncio.sleep(30)  # Every 5 minutes
 
 # 🔘 /quote command - Show buttons for available categories
 @Client.on_message(filters.command("quote") & filters.private)
-async def quote_menu(_, message: Message):
+async def quote_menu(client: Client, message: Message):
     categories = get_all_categories()
     if not categories:
         await message.reply_text("⚠️ No quote categories found.")
@@ -68,17 +81,23 @@ async def quote_menu(_, message: Message):
 
     buttons = [
         [InlineKeyboardButton(f"📌 {cat.capitalize()}", callback_data=f"quote_{cat}")]
-        for cat in categories
+        for cat in sorted(categories)
     ]
+    
     await message.reply_text(
         "🧠 *Choose a category to get a quote:*",
         reply_markup=InlineKeyboardMarkup(buttons)
     )
 
 # 🎯 Handle quote button callback
-@Client.on_callback_query(filters.regex("^quote_"))
-async def send_category_quote(_, callback_query: CallbackQuery):
+@Client.on_callback_query(filters.regex(r"^quote_"))
+async def send_category_quote(client: Client, callback_query: CallbackQuery):
     category = callback_query.data.split("_", 1)[1]
     quote = get_random_quote(category)
-    await callback_query.message.reply_text(text=quote)
+    
+    try:
+        await callback_query.message.reply_text(quote)
+    except Exception as e:
+        await callback_query.message.reply_text(f"⚠️ Failed to send quote: {str(e)}")
+    
     await callback_query.answer()
