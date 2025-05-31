@@ -19,7 +19,7 @@ ai_client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 class Config:
     def __init__(self):
         self.target_channel_id = -1002673901150  # Default channel
-        self.admins = [12345678]  # Your admin ID(s)
+        self.admins = [6947378236]  # Your admin ID(s)
         self.load()
     
     def load(self):
