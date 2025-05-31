@@ -15,11 +15,30 @@ load_dotenv()
 # Initialize OpenAI client
 ai_client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# Constants
-TARGET_CHANNEL_ID = -1002673901150  # Replace with your channel ID
+# Configuration
+class Config:
+    def __init__(self):
+        self.target_channel_id = -1002673901150  # Default channel
+        self.admins = [12345678]  # Your admin ID(s)
+        self.load()
+    
+    def load(self):
+        try:
+            with open("config.json") as f:
+                config = json.load(f)
+                self.target_channel_id = config.get("target_channel_id", self.target_channel_id)
+        except (FileNotFoundError, json.JSONDecodeError):
+            self.save()
+    
+    def save(self):
+        with open("config.json", "w") as f:
+            json.dump({"target_channel_id": self.target_channel_id}, f)
+
+config = Config()
+
+# Paths
 DATA_DIR = Path(__file__).parent / "quotes"
 AI_QUOTES_CACHE = Path(__file__).parent / "ai_quotes_cache.json"
-ADMINS = [12345678]  # Replace with your admin ID(s)
 
 # Emoji generator
 def get_random_emoji():
@@ -47,49 +66,35 @@ def save_ai_cache(cache):
     with open(AI_QUOTES_CACHE, "w") as f:
         json.dump(cache, f, indent=2)
 
-# AI Quote Generator (Fixed)
+# AI Quote Generator (Fixed and improved)
 async def generate_ai_quote(topic="inspiration"):
-    cache = load_ai_cache()
-    
-    # Check cache first
-    if topic in cache:
-        cached_data = cache[topic]
-        if datetime.now() - datetime.fromisoformat(cached_data["generated_at"]) < timedelta(hours=6):
-            return cached_data["quote"]
-    
     try:
+        # Create more specific prompt
+        prompt = (
+            f"Generate a short, powerful {topic} quote that would inspire someone. "
+            "Make it 1 sentence maximum (under 15 words). "
+            "Respond ONLY with the quote text itself without any additional commentary, "
+            "quotation marks, or author attribution."
+        )
+        
         response = await ai_client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
-                {
-                    "role": "system", 
-                    "content": "Generate concise, viral-style quotes. Respond ONLY with the quote text."
-                },
-                {
-                    "role": "user",
-                    "content": f"Create a {topic} quote under 15 words"
-                }
+                {"role": "system", "content": "You are a world-class quote generator."},
+                {"role": "user", "content": prompt}
             ],
-            temperature=0.8,
+            temperature=0.7,
             max_tokens=50
         )
         
-        quote = response.choices[0].message.content.strip('"')
-        
-        # Update cache
-        cache[topic] = {
-            "quote": quote,
-            "generated_at": datetime.now().isoformat()
-        }
-        save_ai_cache(cache)
-        
-        return quote
+        quote = response.choices[0].message.content.strip('"\'').strip()
+        return quote if len(quote.split()) <= 15 else None
     
     except Exception as e:
         print(f"AI Generation Error: {str(e)}")
         return None
 
-# Existing quote functions
+# Quote management
 def get_all_categories():
     try:
         return [file.stem for file in DATA_DIR.glob("*.json") if file.is_file()]
@@ -100,37 +105,47 @@ def get_all_categories():
 def get_random_quote(category: str) -> str:
     file_path = DATA_DIR / f"{category}.json"
     if not file_path.exists():
-        return "⚠️ No quotes found for this category."
+        return None
     
     try:
         with open(file_path, "r", encoding="utf-8") as f:
             quotes = json.load(f)
         
         if not quotes or not isinstance(quotes, list):
-            return "⚠️ No quotes available or invalid format."
+            return None
             
-        return f"\"{random.choice(quotes)}\""
-            
-    except Exception as e:
-        return f"⚠️ Error: {str(e)}"
+        quote = random.choice(quotes)
+        if isinstance(quote, dict):
+            return quote.get("quote", str(quote))
+        return str(quote)
+    except Exception:
+        return None
 
-# Auto quote sender with AI integration
+# Message formatting
+def format_quote(quote: str, source: str = "Regular") -> str:
+    emoji = get_random_emoji()
+    border = "┉━" * 10
+    return (
+        f"✨ {source} Quote ✨\n\n"
+        f"{border}\n"
+        f"{emoji} {quote} {emoji}\n"
+        f"{border}\n\n"
+        f"#Motivation #Inspiration"
+    )
+
+# Auto quote sender
 async def auto_quote_sender(app: Client):
     await asyncio.sleep(10)
     while True:
         try:
-            # 30% chance for AI quote
+            # Try AI quote first (30% chance)
             if random.random() < 0.3:
                 ai_topic = random.choice(["motivation", "success", "wisdom", "life"])
                 quote = await generate_ai_quote(ai_topic)
                 if quote:
                     await app.send_message(
-                        chat_id=TARGET_CHANNEL_ID,
-                        text=(
-                            f"🤖 *AI {ai_topic.title()} Quote:*\n\n"
-                            f"{get_random_emoji()} {quote} {get_random_emoji()}\n\n"
-                            f"#{ai_topic} #AI"
-                        )
+                        chat_id=config.target_channel_id,
+                        text=format_quote(quote, f"AI {ai_topic.title()}")
                     )
                     await asyncio.sleep(300)
                     continue
@@ -138,28 +153,30 @@ async def auto_quote_sender(app: Client):
             # Fallback to regular quotes
             categories = get_all_categories()
             if not categories:
-                print("❌ No quote categories found")
                 await asyncio.sleep(300)
                 continue
 
-            quote = get_random_quote(random.choice(categories))
-            if not quote.startswith("⚠️"):
+            category = random.choice(categories)
+            quote = get_random_quote(category)
+            if quote:
                 await app.send_message(
-                    chat_id=TARGET_CHANNEL_ID,
-                    text=(
-                        f"📌 *Quote of the Day*\n\n"
-                        f"{get_random_emoji()} {quote} {get_random_emoji()}\n\n"
-                        f"@YourChannelHandle"
-                    )
+                    chat_id=config.target_channel_id,
+                    text=format_quote(quote, category.title())
                 )
+            
         except Exception as e:
             print(f"Auto-send Error: {str(e)}")
+        
         await asyncio.sleep(300)  # 5 minutes
 
 # Command handlers
 @Client.on_message(filters.command("quote") & filters.private)
 async def quote_menu(client: Client, message: Message):
     categories = get_all_categories()
+    if not categories:
+        await message.reply("⚠️ No quote categories available")
+        return
+
     buttons = [
         [InlineKeyboardButton(f"{get_random_emoji()} {cat.title()}", callback_data=f"quote_{cat}")]
         for cat in categories
@@ -172,18 +189,21 @@ async def quote_menu(client: Client, message: Message):
     )
 
 @Client.on_callback_query(filters.regex(r"^quote_"))
-async def send_quote(client: Client, callback: CallbackQuery):
+async def send_category_quote(client: Client, callback: CallbackQuery):
     category = callback.data.split("_", 1)[1]
     quote = get_random_quote(category)
-    await callback.message.reply_text(f"{get_random_emoji()} {quote}")
+    if quote:
+        await callback.message.reply_text(format_quote(quote, category.title()))
+    else:
+        await callback.message.reply_text("⚠️ Failed to get quote")
     await callback.answer()
 
 @Client.on_callback_query(filters.regex(r"^ai_quote_menu$"))
 async def ai_quote_menu(client: Client, callback: CallbackQuery):
     topics = ["motivation", "success", "wisdom", "life"]
     buttons = [
-        [InlineKeyboardButton(f"{get_random_emoji()} {topic.title()}", callback_data=f"ai_{topic}")]
-        for topic in topics
+        [InlineKeyboardButton(f"{get_random_emoji()} {t.title()}", callback_data=f"ai_{t}")]
+        for t in topics
     ]
     await callback.message.edit_text(
         "🤖 Choose AI quote topic:",
@@ -195,29 +215,39 @@ async def ai_quote_menu(client: Client, callback: CallbackQuery):
 async def send_ai_quote(client: Client, callback: CallbackQuery):
     topic = callback.data.split("_", 1)[1]
     quote = await generate_ai_quote(topic)
-    await callback.message.reply_text(
-        f"✨ AI {topic.title()} Quote:\n\n{quote}\n\n#{topic}" if quote 
-        else "⚠️ Failed to generate quote"
-    )
+    if quote:
+        await callback.message.reply_text(format_quote(quote, f"AI {topic.title()}"))
+    else:
+        await callback.message.reply_text("⚠️ Failed to generate quote")
     await callback.answer()
 
-# Admin commands
-@Client.on_message(filters.command("setchannel") & filters.private & filters.user(ADMINS))
+@Client.on_message(filters.command("setchannel") & filters.private & filters.user(config.admins))
 async def set_channel(client: Client, message: Message):
     if message.reply_to_message and message.reply_to_message.forward_from_chat:
-        new_id = message.reply_to_message.forward_from_chat.id
-        TARGET_CHANNEL_ID = new_id  # In production, save to config/db
-        await message.reply(f"✅ Channel set to ID: {new_id}")
+        config.target_channel_id = message.reply_to_message.forward_from_chat.id
+        config.save()
+        await message.reply(f"✅ Channel set to ID: {config.target_channel_id}")
     else:
         await message.reply("ℹ️ Reply to a forwarded channel message")
 
-# Start the bot
+@Client.on_message(filters.command("testai") & filters.private)
+async def test_ai(client: Client, message: Message):
+    quote = await generate_ai_quote("motivation")
+    if quote:
+        await message.reply(f"✅ AI Test Successful:\n\n{format_quote(quote, 'AI Test')}")
+    else:
+        await message.reply("❌ AI Generation Failed")
+
+# Main bot handler
 async def main():
-    async with Client("my_bot") as app:
-        await asyncio.gather(
-            auto_quote_sender(app),
-            app.run()
-        )
+    async with Client(
+        "my_bot",
+        api_id=os.getenv("API_ID"),
+        api_hash=os.getenv("API_HASH")
+    ) as app:
+        asyncio.create_task(auto_quote_sender(app))
+        print("✅ Bot started successfully")
+        await app.run()
 
 if __name__ == "__main__":
     asyncio.run(main())
