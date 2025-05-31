@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
-from dotenv import load_dotenv
+import config
 from openai import AsyncOpenAI
 
 # Load environment variables
