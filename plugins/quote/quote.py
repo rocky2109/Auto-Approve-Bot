@@ -6,11 +6,11 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
-import config
+from config import *
 from openai import AsyncOpenAI
 
 # Load environment variables
-load_dotenv()
+
 
 # Initialize OpenAI client
 ai_client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
