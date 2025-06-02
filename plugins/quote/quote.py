@@ -7,7 +7,7 @@ from pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 
 # 🚀 Target channel where quotes will be auto-sent
-TARGET_CHANNEL_ID = -1002673901150  # ✅ Replace with your actual channel ID
+TARGET_CHANNEL_ID = -1002360435278  # ✅ Replace with your actual channel ID
 
 # 📂 Directory containing quote JSON files (motivation.json, inspiration.json, etc.)
 DATA_DIR = Path(__file__).parent / "quotes"
@@ -129,7 +129,7 @@ async def auto_quote_sender(app: Client):
                 print(f"[✅] Sent quote from '{category}'")
         except Exception as e:
             print(f"[❌ Auto Quote Error] {str(e)}")
-        await asyncio.sleep(30)  # Every 5 minutes
+        await asyncio.sleep(10800)  # Every 5 minutes
 
 # 🔘 /quote command - Show buttons for available categories
 @Client.on_message(filters.command("quote") & filters.private)
