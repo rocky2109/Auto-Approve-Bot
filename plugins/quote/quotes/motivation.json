@@ -1,5 +1,408 @@
 [
+
    
+[
+    {
+        "quote": "🌟 Keep going even when it's tough, but remember: struggles make you stronger. Stay focused and never give up.",
+        "author": "Zig Ziglar"
+    },
+    {
+        "quote": "💪 The road to success is rarely straight; progress is better than perfection. Your future self will thank you.",
+        "author": "Zig Ziglar"
+    },
+    {
+        "quote": "🎯 Every expert was once a beginner... progress is better than perfection. Finally, Make today count.!",
+        "author": "Jim Rohn"
+    },
+    {
+        "quote": "🚀 The road to success is rarely straight. Then, progress is better than perfection — Your future self will thank you.",
+        "author": "Anonymous"
+    },
+    {
+        "quote": "🌟 The road to success is rarely straight, but remember: progress is better than perfection. Push beyond the limits.",
+        "author": "Robin Sharma"
+    },
+    {
+        "quote": "🚀 The road to success is rarely straight. Then, hard work always pays off — You’ve got this.",
+        "author": "Robin Sharma"
+    },
+    {
+        "quote": "💪 Don't wait for opportunity to knock; your mindset shapes your future. Your future self will thank you.",
+        "author": "Tony Robbins"
+    },
+    {
+        "quote": "🎯 Dream big and dare to fail... progress is better than perfection. Finally, You’ve got this.!",
+        "author": "Anonymous"
+    },
+    {
+        "quote": "🎯 Success starts with self-discipline... progress is better than perfection. Finally, Make today count.!",
+        "author": "Tony Robbins"
+    },
+    {
+        "quote": "🎯 Success starts with self-discipline... struggles make you stronger. Finally, Push beyond the limits.!",
+        "author": "Jim Rohn"
+    },
+    {
+        "quote": "🌟 The road to success is rarely straight, but remember: progress is better than perfection. Push beyond the limits.",
+        "author": "John C. Maxwell"
+    },
+    {
+        "quote": "🚀 Dream big and dare to fail. Then, progress is better than perfection — Stay focused and never give up.",
+        "author": "Zig Ziglar"
+    },
+    {
+        "quote": "🌟 Success starts with self-discipline, but remember: progress is better than perfection. Stay focused and never give up.",
+        "author": "Anonymous"
+    },
+    {
+        "quote": "🌟 Don't wait for opportunity to knock, but remember: consistency beats intensity. Make today count.",
+        "author": "John C. Maxwell"
+    },
+    {
+        "quote": "🌟 Don't wait for opportunity to knock, but remember: hard work always pays off. You’ve got this.",
+        "author": "Tony Robbins"
+    },
+    {
+        "quote": "💪 Keep going even when it's tough; consistency beats intensity. Push beyond the limits.",
+        "author": "Anonymous"
+    },
+    {
+        "quote": "🌟 The road to success is rarely straight, but remember: you are capable of amazing things. Make today count.",
+        "author": "Les Brown"
+    },
+    {
+        "quote": "🔥 Success starts with self-discipline. struggles make you stronger, and Stay focused and never give up.",
+        "author": "John C. Maxwell"
+    },
+    {
+        "quote": "🔥 Don't wait for opportunity to knock. progress is better than perfection, and Make today count.",
+        "author": "John C. Maxwell"
+    },
+    {
+        "quote": "💪 Every expert was once a beginner; hard work always pays off. Push beyond the limits.",
+        "author": "Tony Robbins"
+    },
+    {
+        "quote": "🚀 Dream big and dare to fail. Then, struggles make you stronger — Make today count.",
+        "author": "Tony Robbins"
+    },
+    {
+        "quote": "🌟 The road to success is rarely straight, but remember: hard work always pays off. You’ve got this.",
+        "author": "Jim Rohn"
+    },
+    {
+        "quote": "🌟 The road to success is rarely straight, but remember: you are capable of amazing things. Push beyond the limits.",
+        "author": "Tony Robbins"
+    },
+    {
+        "quote": "💪 Success starts with self-discipline; hard work always pays off. Make today count.",
+        "author": "Anonymous"
+    },
+    {
+        "quote": "🌟 Don't wait for opportunity to knock, but remember: progress is better than perfection. You’ve got this.",
+        "author": "John C. Maxwell"
+    },
+    {
+        "quote": "🎯 Keep going even when it's tough... you are capable of amazing things. Finally, You’ve got this.!",
+        "author": "Tony Robbins"
+    },
+    {
+        "quote": "🔥 Dream big and dare to fail. struggles make you stronger, and Greatness is within reach.",
+        "author": "Tony Robbins"
+    },
+    {
+        "quote": "🎯 Dream big and dare to fail... progress is better than perfection. Finally, Make today count.!",
+        "author": "Robin Sharma"
+    },
+    {
+        "quote": "💪 Dream big and dare to fail; your mindset shapes your future. Stay focused and never give up.",
+        "author": "Tony Robbins"
+    },
+    {
+        "quote": "🎯 Every expert was once a beginner... you are capable of amazing things. Finally, Greatness is within reach.!",
+        "author": "Les Brown"
+    },
+    {
+        "quote": "🎯 Every expert was once a beginner... hard work always pays off. Finally, Stay focused and never give up.!",
+        "author": "Jim Rohn"
+    },
+    {
+        "quote": "🎯 Keep going even when it's tough... hard work always pays off. Finally, Greatness is within reach.!",
+        "author": "Anonymous"
+    },
+    {
+        "quote": "🔥 Don't wait for opportunity to knock. hard work always pays off, and Your future self will thank you.",
+        "author": "John C. Maxwell"
+    },
+    {
+        "quote": "🎯 Success starts with self-discipline... struggles make you stronger. Finally, Stay focused and never give up.!",
+        "author": "Robin Sharma"
+    },
+    {
+        "quote": "🔥 Success starts with self-discipline. hard work always pays off, and Make today count.",
+        "author": "John C. Maxwell"
+    },
+    {
+        "quote": "💪 Every expert was once a beginner; hard work always pays off. Greatness is within reach.",
+        "author": "Tony Robbins"
+    },
+    {
+        "quote": "💪 Every expert was once a beginner; progress is better than perfection. You’ve got this.",
+        "author": "Jim Rohn"
+    },
+    {
+        "quote": "🎯 The road to success is rarely straight... your mindset shapes your future. Finally, Push beyond the limits.!",
+        "author": "John C. Maxwell"
+    },
+    {
+        "quote": "🔥 Keep going even when it's tough. you are capable of amazing things, and Greatness is within reach.",
+        "author": "Tony Robbins"
+    },
+    {
+        "quote": "🔥 Success starts with self-discipline. your mindset shapes your future, and Stay focused and never give up.",
+        "author": "Les Brown"
+    },
+    {
+        "quote": "🌟 Every expert was once a beginner, but remember: your mindset shapes your future. You’ve got this.",
+        "author": "Anonymous"
+    },
+    {
+        "quote": "🔥 Don't wait for opportunity to knock. progress is better than perfection, and Push beyond the limits.",
+        "author": "Robin Sharma"
+    },
+    {
+        "quote": "🎯 The road to success is rarely straight... your mindset shapes your future. Finally, Push beyond the limits.!",
+        "author": "John C. Maxwell"
+    },
+    {
+        "quote": "🎯 The road to success is rarely straight... consistency beats intensity. Finally, Your future self will thank you.!",
+        "author": "Anonymous"
+    },
+    {
+        "quote": "🔥 Every expert was once a beginner. consistency beats intensity, and Greatness is within reach.",
+        "author": "Anonymous"
+    },
+    {
+        "quote": "🚀 Dream big and dare to fail. Then, struggles make you stronger — Push beyond the limits.",
+        "author": "Robin Sharma"
+    },
+    {
+        "quote": "🎯 Keep going even when it's tough... struggles make you stronger. Finally, Make today count.!",
+        "author": "Jim Rohn"
+    },
+    {
+        "quote": "🌟 The road to success is rarely straight, but remember: your mindset shapes your future. Stay focused and never give up.",
+        "author": "John C. Maxwell"
+    },
+    {
+        "quote": "🎯 Don't wait for opportunity to knock... you are capable of amazing things. Finally, Your future self will thank you.!",
+        "author": "Robin Sharma"
+    },
+    {
+        "quote": "🔥 Don't wait for opportunity to knock. you are capable of amazing things, and You’ve got this.",
+        "author": "Anonymous"
+    },
+    {
+        "quote": "🎯 Don't wait for opportunity to knock... hard work always pays off. Finally, Make today count.!",
+        "author": "Zig Ziglar"
+    },
+    {
+        "quote": "🌟 Don't wait for opportunity to knock, but remember: hard work always pays off. You’ve got this.",
+        "author": "Les Brown"
+    },
+    {
+        "quote": "💪 The road to success is rarely straight; consistency beats intensity. Stay focused and never give up.",
+        "author": "Zig Ziglar"
+    },
+    {
+        "quote": "🚀 The road to success is rarely straight. Then, progress is better than perfection — Stay focused and never give up.",
+        "author": "Les Brown"
+    },
+    {
+        "quote": "🔥 Dream big and dare to fail. hard work always pays off, and Make today count.",
+        "author": "Les Brown"
+    },
+    {
+        "quote": "🚀 Keep going even when it's tough. Then, struggles make you stronger — You’ve got this.",
+        "author": "Jim Rohn"
+    },
+    {
+        "quote": "🌟 Don't wait for opportunity to knock, but remember: hard work always pays off. You’ve got this.",
+        "author": "Les Brown"
+    },
+    {
+        "quote": "🌟 Don't wait for opportunity to knock, but remember: you are capable of amazing things. Push beyond the limits.",
+        "author": "Anonymous"
+    },
+    {
+        "quote": "🔥 Keep going even when it's tough. you are capable of amazing things, and Push beyond the limits.",
+        "author": "John C. Maxwell"
+    },
+    {
+        "quote": "🎯 Don't wait for opportunity to knock... you are capable of amazing things. Finally, Make today count.!",
+        "author": "Anonymous"
+    },
+    {
+        "quote": "🌟 Keep going even when it's tough, but remember: you are capable of amazing things. Make today count.",
+        "author": "Les Brown"
+    },
+    {
+        "quote": "🔥 Don't wait for opportunity to knock. your mindset shapes your future, and Your future self will thank you.",
+        "author": "Zig Ziglar"
+    },
+    {
+        "quote": "💪 Dream big and dare to fail; consistency beats intensity. Make today count.",
+        "author": "Zig Ziglar"
+    },
+    {
+        "quote": "🎯 The road to success is rarely straight... consistency beats intensity. Finally, Greatness is within reach.!",
+        "author": "John C. Maxwell"
+    },
+    {
+        "quote": "🚀 Every expert was once a beginner. Then, hard work always pays off — Push beyond the limits.",
+        "author": "Jim Rohn"
+    },
+    {
+        "quote": "🎯 Dream big and dare to fail... your mindset shapes your future. Finally, Push beyond the limits.!",
+        "author": "Tony Robbins"
+    },
+    {
+        "quote": "🔥 Every expert was once a beginner. you are capable of amazing things, and Stay focused and never give up.",
+        "author": "John C. Maxwell"
+    },
+    {
+        "quote": "🚀 Keep going even when it's tough. Then, your mindset shapes your future — Push beyond the limits.",
+        "author": "Robin Sharma"
+    },
+    {
+        "quote": "🌟 Dream big and dare to fail, but remember: you are capable of amazing things. Your future self will thank you.",
+        "author": "Zig Ziglar"
+    },
+    {
+        "quote": "🔥 Dream big and dare to fail. your mindset shapes your future, and Make today count.",
+        "author": "Anonymous"
+    },
+    {
+        "quote": "🔥 The road to success is rarely straight. consistency beats intensity, and You’ve got this.",
+        "author": "Robin Sharma"
+    },
+    {
+        "quote": "🔥 Dream big and dare to fail. hard work always pays off, and Stay focused and never give up.",
+        "author": "Anonymous"
+    },
+    {
+        "quote": "🚀 Success starts with self-discipline. Then, your mindset shapes your future — Stay focused and never give up.",
+        "author": "Jim Rohn"
+    },
+    {
+        "quote": "💪 Don't wait for opportunity to knock; progress is better than perfection. Push beyond the limits.",
+        "author": "Jim Rohn"
+    },
+    {
+        "quote": "🔥 Don't wait for opportunity to knock. you are capable of amazing things, and Push beyond the limits.",
+        "author": "Tony Robbins"
+    },
+    {
+        "quote": "🔥 Dream big and dare to fail. struggles make you stronger, and You’ve got this.",
+        "author": "John C. Maxwell"
+    },
+    {
+        "quote": "🎯 Dream big and dare to fail... your mindset shapes your future. Finally, Stay focused and never give up.!",
+        "author": "Zig Ziglar"
+    },
+    {
+        "quote": "🚀 Don't wait for opportunity to knock. Then, consistency beats intensity — Greatness is within reach.",
+        "author": "Robin Sharma"
+    },
+    {
+        "quote": "🎯 Dream big and dare to fail... your mindset shapes your future. Finally, Your future self will thank you.!",
+        "author": "Tony Robbins"
+    },
+    {
+        "quote": "🔥 Dream big and dare to fail. hard work always pays off, and Greatness is within reach.",
+        "author": "Tony Robbins"
+    },
+    {
+        "quote": "🌟 Dream big and dare to fail, but remember: you are capable of amazing things. You’ve got this.",
+        "author": "Tony Robbins"
+    },
+    {
+        "quote": "💪 Dream big and dare to fail; hard work always pays off. You’ve got this.",
+        "author": "Zig Ziglar"
+    },
+    {
+        "quote": "🎯 Don't wait for opportunity to knock... struggles make you stronger. Finally, Greatness is within reach.!",
+        "author": "Les Brown"
+    },
+    {
+        "quote": "💪 Success starts with self-discipline; progress is better than perfection. Push beyond the limits.",
+        "author": "Zig Ziglar"
+    },
+    {
+        "quote": "🎯 Don't wait for opportunity to knock... progress is better than perfection. Finally, Stay focused and never give up.!",
+        "author": "John C. Maxwell"
+    },
+    {
+        "quote": "🎯 The road to success is rarely straight... progress is better than perfection. Finally, Make today count.!",
+        "author": "Anonymous"
+    },
+    {
+        "quote": "🎯 The road to success is rarely straight... hard work always pays off. Finally, Stay focused and never give up.!",
+        "author": "Robin Sharma"
+    },
+    {
+        "quote": "🔥 Every expert was once a beginner. struggles make you stronger, and Push beyond the limits.",
+        "author": "Les Brown"
+    },
+    {
+        "quote": "🌟 The road to success is rarely straight, but remember: hard work always pays off. Make today count.",
+        "author": "Robin Sharma"
+    },
+    {
+        "quote": "🔥 Don't wait for opportunity to knock. you are capable of amazing things, and Stay focused and never give up.",
+        "author": "Anonymous"
+    },
+    {
+        "quote": "💪 Keep going even when it's tough; progress is better than perfection. Push beyond the limits.",
+        "author": "Tony Robbins"
+    },
+    {
+        "quote": "💪 Don't wait for opportunity to knock; your mindset shapes your future. Your future self will thank you.",
+        "author": "Tony Robbins"
+    },
+    {
+        "quote": "🔥 Success starts with self-discipline. progress is better than perfection, and Make today count.",
+        "author": "John C. Maxwell"
+    },
+    {
+        "quote": "🔥 Keep going even when it's tough. struggles make you stronger, and Make today count.",
+        "author": "John C. Maxwell"
+    },
+    {
+        "quote": "🎯 The road to success is rarely straight... you are capable of amazing things. Finally, Stay focused and never give up.!",
+        "author": "Anonymous"
+    },
+    {
+        "quote": "🌟 Keep going even when it's tough, but remember: your mindset shapes your future. Push beyond the limits.",
+        "author": "Jim Rohn"
+    },
+    {
+        "quote": "🎯 Keep going even when it's tough... consistency beats intensity. Finally, Push beyond the limits.!",
+        "author": "Anonymous"
+    },
+    {
+        "quote": "🔥 Dream big and dare to fail. consistency beats intensity, and You’ve got this.",
+        "author": "Tony Robbins"
+    },
+    {
+        "quote": "💪 Don't wait for opportunity to knock; hard work always pays off. Your future self will thank you.",
+        "author": "Jim Rohn"
+    },
+    {
+        "quote": "🎯 Don't wait for opportunity to knock... struggles make you stronger. Finally, Greatness is within reach.!",
+        "author": "Les Brown"
+    }
+]   
 "🌄 Even when the journey feels endless and the road ahead is uncertain, remember that every small step forward brings you closer to your dreams. Trust in your strength, and keep moving with courage.",
 "🌟 When challenges stack up like mountains, rise higher. Your persistence and resilience are the wings that will carry you above any storm.",
 "🔥 No matter how many times you fall, the act of standing up and trying again is what transforms setbacks into stepping stones toward greatness.",
