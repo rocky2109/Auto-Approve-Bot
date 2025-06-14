@@ -7,7 +7,8 @@ from aiohttp import web
 
 from config import API_ID, API_HASH, BOT_TOKEN
 from plugins.quote.quote import auto_quote_sender  # ✅ Import properly
-from plugins.daily_news import start_scheduler
+
+
 warnings.filterwarnings("ignore", message=".*message.forward_date.*")
 
 # Initialize SQLite DB
