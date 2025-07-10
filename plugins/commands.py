@@ -3,7 +3,7 @@ from pyrogram import Client, filters, enums
 from config import *
 from .database import db
 from .fsub import get_fsub
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message, ChatJoinRequest
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message, ChatJoinRequest, CallbackQuery
 from pyrogram.errors import InputUserDeactivated, UserNotParticipant, FloodWait, UserIsBlocked, PeerIdInvalid
 import datetime
 import time
