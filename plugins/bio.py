@@ -80,47 +80,32 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
             try:
                 await client.approve_chat_join_request(m.chat.id, m.from_user.id)
             except UserAlreadyParticipant:
-                logger.info(f"User {m.from_user.id} is already a participant in {chat.title}")
+                logger.info(f"User {m.from_user.id} is already in {chat.title}")
 
             approve_text = (
                 f"🔓 <b>Access Granted ✅</b>\n\n"
                 f"<b><blockquote> Cheers, <a href='https://t.me/Real_Pirates'>{full_name}</a> ! 🥂</blockquote></b>\n"
-                f"Your Request To Join <b><a href='{invite_link}'> {chat.title} </a></b> Has Been Approved! 🎉\n"
-                f"We’re happy to have you with us. 🥰\n\n"
+                f"Request To Join <b><a href='{invite_link}'> {chat.title} </a></b> Approved! 🎉\n\n"
                 f"💎 𝐌𝐞𝐦𝐛𝐞𝐫𝐬 𝐂𝐨𝐮𝐧𝐭: <b>{member_count:,}</b> 🚀\n"
-                f"┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━\n"
             )
+
             warning_text = (
-                f"⚠️⚠️⚠️\n"
-                f"<b><i>||If you remove the tag(s) `{', '.join(required_tags)}` from your bio, "
-                f"you will be removed from the channel. 💀||\n"
-                f"These tags are required to remain a verified member of > ≫  {chat.title}.\n"
-                f"Make sure to keep that tag in your Bio to avoid removal. 😉</i></b>"
+                f"⚠️ <b><i>Reminder:</i></b>\n"
+                f"<i>Removing the tag(s) `{', '.join(required_tags)}` from your bio will result in removal from <b>{chat.title}</b>. 💀\n"
+                f"Keep it to stay verified. 😉</i>"
             )
 
-            # Send both messages in the group
-            await client.send_message(m.chat.id, approve_text)
-            await client.send_message(m.chat.id, warning_text)
-
-            stickers = [
-                "CAACAgUAAxkBAAKcLmf-E2SXmiXe99nF5KuHMMbeBsEoAALbHAACocj4Vkl1jIJ0iWpmHgQ",
-                "CAACAgUAAxkBAAKcH2f94mJ3mIfgQeXmv4j0PlEpIgYMAAJvFAACKP14V1j51qcs1b2wHgQ",
-                "CAACAgUAAxkBAAJLXmf2ThTMZwF8_lu8ZEwzHvRaouKUAAL9FAACiFywV69qth3g-gb4HgQ"
-            ]
-
-            # Send DM to user
+            # ✅ Send approve + warning to log/approve channel ONLY
             try:
-                await client.send_message(m.from_user.id, approve_text, disable_web_page_preview=True)
-                await client.send_sticker(m.from_user.id, random.choice(stickers))
+                await client.send_message(APPROVE_CHANNEL, approve_text + warning_text, disable_web_page_preview=True)
+                await client.send_sticker(APPROVE_CHANNEL, random.choice([
+                    "CAACAgUAAxkBAAKcLmf-E2SXmiXe99nF5KuHMMbeBsEoAALbHAACocj4Vkl1jIJ0iWpmHgQ",
+                    "CAACAgUAAxkBAAKcH2f94mJ3mIfgQeXmv4j0PlEpIgYMAAJvFAACKP14V1j51qcs1b2wHgQ",
+                    "CAACAgUAAxkBAAJLXmf2ThTMZwF8_lu8ZEwzHvRaouKUAAL9FAACiFywV69qth3g-gb4HgQ"
+                ]))
             except Exception as e:
-                logger.warning(f"Could not DM approved user: {e}")
-
-            # Log to channel
-            try:
-                await client.send_message(APPROVE_CHANNEL, approve_text, disable_web_page_preview=True)
-                await client.send_sticker(APPROVE_CHANNEL, random.choice(stickers))
-            except Exception as e:
-                logger.warning(f"Could not send to log group: {e}")
+                logger.warning(f"❌ Could not send to APPROVE_CHANNEL: {e}")
 
         else:
             await client.decline_chat_join_request(m.chat.id, m.from_user.id)
@@ -130,20 +115,10 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
             reject_text = (
                 f"🔒 <b>Access Denied ❌</b>\n\n"
                 f"Dear <b>{m.from_user.mention}</b> 🌝 Your Request is Pending...\n\n"
-                f"If you want to join ⇙ Quickly:\n"
-                f"<blockquote><b><a href='{invite_link}'>{chat.title}</a></b></blockquote>\n"
-                f"Follow these <b>2 Simple Steps 😊</b>:\n"
-                f"─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌\n"
-                f" 💡 <b><u>Step</u> 1️⃣</b>\n\n"
-                f"Add This 👇 Tag in <b>Your Bio</b>\n"           
-                f"{tags_display}\n"
-                f"<i>Tap to Copy 👆</i>\n\n"
-                f"𝐀𝐝𝐝 𝐐𝐮𝐢𝐜𝐤𝐥𝐲 𝐢𝐧 <b><a href='tg://settings'>Your Bio 👀</a></b>\n\n"                
-                f" 💡 <b><u>Step</u> 2️⃣</b>\n\n"
-                f"After updating your bio, try joining again by this Link 🔗 👇 \n"
-                f"<blockquote><b>{invite_link}</b></blockquote>\n"
-                f"─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌\n"
-                f"✨ I’ll Approve you instantly if I detect the tag. Let's go! 😉"
+                f"To join <b>{chat.title}</b> quickly:\n"
+                f"🔹 <b>Step 1:</b> Add this tag in your bio:\n{tags_display}\n"
+                f"🔹 <b>Step 2:</b> Retry via this link:\n{invite_link}\n\n"
+                f"✨ I’ll approve you instantly if I detect the tag!"
             )
 
             buttons = InlineKeyboardMarkup([
@@ -155,12 +130,15 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
 
             try:
                 await client.send_message(m.from_user.id, reject_text, disable_web_page_preview=True, reply_markup=buttons)
-                await client.send_sticker(m.from_user.id, random.choice(stickers))
-            except (UserNotMutualContact, PeerIdInvalid):
-                pass
+                await client.send_sticker(m.from_user.id, random.choice([
+                    "CAACAgUAAxkBAAKcLmf-E2SXmiXe99nF5KuHMMbeBsEoAALbHAACocj4Vkl1jIJ0iWpmHgQ",
+                    "CAACAgUAAxkBAAKcH2f94mJ3mIfgQeXmv4j0PlEpIgYMAAJvFAACKP14V1j51qcs1b2wHgQ",
+                    "CAACAgUAAxkBAAJLXmf2ThTMZwF8_lu8ZEwzHvRaouKUAAL9FAACiFywV69qth3g-gb4HgQ"
+                ]))
             except Exception as e:
-                logger.warning(f"Could not DM rejected user: {e}")
+                logger.warning(f"❌ Could not DM rejected user: {e}")
 
     except Exception as e:
         logger.error(f"Join request handler error: {e}")
+
 
