@@ -141,12 +141,13 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
                 f"<blockquote><b>{invite_link}</b></blockquote>\n"
                 f"─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌\n"
                 f"✨ I’ll Approve you instantly if I detect the tag. Let's go! 😉"
+                f"Use /help for detailed guide"
             )
 
             buttons = InlineKeyboardMarkup([
                 [
                     InlineKeyboardButton("📢 Updates", url="https://t.me/II_Way_to_Success_II"),
-                    InlineKeyboardButton("💬 Support", url="https://t.me/Chosen_Onex")
+                    InlineKeyboardButton("💖 Support", url="https://t.me/Chosen_Onex")
                 ]
             ])
 
