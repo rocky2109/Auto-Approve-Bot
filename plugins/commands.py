@@ -99,9 +99,68 @@ async def open_settings_cb(client, query):
 async def back_home_cb(client, callback_query):
     await start_message(client, callback_query.message)  # Re-use existing /start handler
 
-@Client.on_message(filters.command('help'))
-async def help_message(c,m):
-   await m.reply_text(f"{m.from_user.mention},\n\n𝖱𝖾𝖺𝖽 𝗍𝗁𝗂𝗌 𝗆𝖾𝗌𝗌𝖺𝗀𝖾 𝖼𝖺𝗋𝖾𝖿𝗎𝗅𝗅𝗒 𝗌𝗈 𝗒𝗈𝗎 𝖽𝗈𝗇'𝗍 𝗁𝖺𝗏𝖾 𝖺𝗇𝗒 𝗉𝗋𝗈𝖻𝗅𝖾𝗆𝗌 𝗐𝗁𝗂𝗅𝖾 𝗎𝗌𝗂𝗇𝗀 𝗆𝖾.\n\n𝟏. 𝐇𝐨𝐰 𝐭𝐨 𝐚𝐜𝐜𝐞𝐩𝐭 𝐧𝐞𝐰 𝐣𝐨𝐢𝐧 𝐫𝐞𝐪𝐮𝐞𝐬𝐭𝐬?\n\n👉 𝖩𝗎𝗌𝗍 𝖺𝖽𝖽 𝗆𝖾 𝗂𝗇 𝗒𝗈𝗎 𝖼𝗁𝖺𝗇𝗇𝖾𝗅 𝗈𝗋 𝗀𝗋𝗈𝗎𝗉 𝖺𝗌 𝖺𝖽𝗆𝗂𝗇 𝖺𝗇𝖽 𝗐𝗂𝗍𝗁 𝗉𝖾𝗋𝗆𝗂𝗌𝗌𝗂𝗈𝗇 𝗍𝗈 𝖺𝖽𝖽 𝗇𝖾𝗐 𝗆𝖾𝗆𝖻𝖾𝗋𝗌.\n\n𝟐. 𝐇𝐨𝐰 𝐭𝐨 𝐚𝐜𝐜𝐞𝐩𝐭 𝐩𝐞𝐧𝐝𝐢𝐧𝐠 𝐣𝐨𝐢𝐧 𝐫𝐞𝐪𝐮𝐞𝐬𝐭𝐬?\n\n👉 𝖥𝗂𝗋𝗌𝗍 𝖺𝖽𝖽 𝗆𝖾 𝖺𝗌 𝖺𝖽𝗆𝗂𝗇 𝗂𝗇 𝗒𝗈𝗎𝗋 𝖼𝗁𝖺𝗇𝗇𝖾𝗅 𝗈𝗋 𝗀𝗋𝗈𝗎𝗉 𝗐𝗂𝗍𝗁 𝗉𝖾𝗋𝗆𝗂𝗌𝗌𝗂𝗈𝗇 𝗍𝗈 𝖺𝖽𝖽 𝗇𝖾𝗐 𝗆𝖾𝗆𝖻𝖾𝗋𝗌.\n\n👉 𝖳𝗁𝖾𝗇 𝗅𝗈𝗀𝗂𝗇 𝗂𝗇𝗍𝗈 𝗍𝗁𝖾 𝖻𝗈𝗍 𝗆𝗒 𝗎𝗌𝗂𝗇𝗀 /login 𝖼𝗈𝗆𝗆𝖺𝗇𝖽.\n\n👉 𝖭𝗈𝗐 𝗎𝗌𝖾 /accept 𝖼𝗈𝗆𝗆𝖺𝗇𝖽 𝗍𝗈 𝖺𝖼𝖼𝖾𝗉𝗍 𝖺𝗅𝗅 𝗉𝖾𝗇𝖽𝗂𝗇𝗀 𝗋𝖾𝗊𝗎𝖾𝗌𝗍.\n\n👉 𝖭𝗈𝗐 𝗃𝗎𝗌𝗍 𝗎𝗌𝖾 /logout 𝖼𝗈𝗆𝗆𝖺𝗇𝖽 𝖿𝗈𝗋 𝗅𝗈𝗀𝗈𝗎𝗍.\n\n<b>𝖨𝖿 𝗒𝗈𝗎 𝗌𝗍𝗂𝗅𝗅 𝖿𝖺𝖼𝖾 𝖺𝗇𝗒 𝗂𝗌𝗌𝗎𝖾 𝗍𝗁𝖾𝗇 𝖼𝗈𝗇𝗍𝖺𝖼𝗍 @Chosen_Onex</b>")
+
+# Pages
+help_pages = {
+    1: (
+        "📘 <b>How To Get Approved After Rejection</b>\n\n"
+        "🔒 <b>Access Denied?</b> Don't worry! Follow these 2 simple steps to join successfully:\n\n"
+        "💡 <b>Step 1️⃣: Add Required Tag</b>\n"
+        "Check the tag(s) mentioned in the rejection message.\n"
+        "Now go to your Telegram bio and paste one of the required tags (like <code>@real_pirates</code> or others).\n"
+        "👉 <a href='tg://settings'>Click Here to Open Bio Settings</a>\n\n"
+        "💡 <b>Step 2️⃣: Rejoin the Channel</b>\n"
+        "Try to join the channel again using the same link you clicked before.\n"
+        "✅ If the bot detects the tag in your bio, you’ll be instantly approved!\n\n"
+        "⚠️ Make sure the tag stays in your bio — removing it later will lead to auto-removal from the channel.\n\n"
+        "Still confused? Contact @Chosen_Onex for help."
+    ),
+
+    2: (
+        "📘 <b>Bot Usage Instructions for Admins</b>\n\n"
+        "👋 Welcome! Here's how to use the bot effectively:\n\n"
+        "✅ <b>To auto-approve new join requests:</b>\n"
+        "➤ Add me as <b>admin</b> in your group or channel with <i>add users</i> permission.\n\n"
+        "✅ <b>To approve pending requests:</b>\n"
+        "➤ Add me as admin\n"
+        "➤ Use /login to authenticate\n"
+        "➤ Use /accept to approve all pending join requests\n"
+        "➤ Use /logout to end your session\n\n"
+        "Need help? DM @Chosen_Onex"
+    )
+}
+
+# Show page
+def help_markup(current_page: int):
+    return InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton("« Prev", callback_data=f"help_page:{current_page - 1}") if current_page > 1 else InlineKeyboardButton(" ", callback_data="ignore"),
+            InlineKeyboardButton(f"📄 Page {current_page}/2", callback_data="ignore"),
+            InlineKeyboardButton("Next »", callback_data=f"help_page:{current_page + 1}") if current_page < len(help_pages) else InlineKeyboardButton(" ", callback_data="ignore")
+        ]
+    ])
+
+# /help command
+@Client.on_message(filters.command("help"))
+async def help_message(c, m):
+    await m.reply_text(
+        help_pages[1],
+        reply_markup=help_markup(1),
+        disable_web_page_preview=True
+    )
+
+# Pagination callback
+@Client.on_callback_query(filters.regex("help_page:(\\d+)"))
+async def help_page_handler(c, query: CallbackQuery):
+    page = int(query.data.split(":")[1])
+    if page in help_pages:
+        await query.message.edit_text(
+            help_pages[page],
+            reply_markup=help_markup(page),
+            disable_web_page_preview=True
+        )
+    await query.answer()
+
 
 @Client.on_message(filters.command("users") & filters.user(ADMINS))
 async def users(bot, message):
