@@ -13,8 +13,8 @@ logger = logging.getLogger(__name__)
 TAG_MAP = {
     "#movie": ["@real_pirates", "@drama_loverx"],
     "#drama": ["@drama_loverx"],
-    "#study": ["@ii_way_to_success_ii", "@II_LevelUP_II"],
-    "#success": ["@myownsuccess"],
+    "#study": ["@II_LevelUP_II"],
+    "#success": ["@ii_way_to_success_ii"],
     "#skill": ["@II_LevelUP_II"],
     "#alone": ["@just_vibing_alone"],
 }
