@@ -85,12 +85,18 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
                 f"We’re happy to have you with us. 🥰\n\n"
                 f"💎 𝐌𝐞𝐦𝐛𝐞𝐫𝐬 𝐂𝐨𝐮𝐧𝐭: <b>{member_count:,}</b> 🚀\n"
                 f"┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌\n"
+                await m.reply_text(approve_text)
+
+    # Second message: Warning about removing tags
+            warning_text = (
                 f"⚠️⚠️⚠️\n"
-                f"<b><i>||If you remove the tag(s) {', '.join(required_tags)} from your bio, you will be removed from the channel. 💀||\n"
-                f"These tags are required to remain a verified member of ≫  {chat.title}.\n"
-                f"Make sure to keep at least one in your Bio to avoid removal. 😉</i></b>\n"
-                f"<blockquote>Supported by <b>➩ @Real_Pirates 🏴‍☠️</b></blockquote>"
+                f"<b><i>"
+                f"||If you remove the tag(s) `{', '.join(required_tags)}` from your bio, you will be removed from the channel. 💀||\n"
+                f"These tags are required to remain a verified member of > ≫  {chat.title}.\n"
+                f"Make sure to keep that tag in your Bio to avoid removal. 😉"
+                f"</i></b>"
             )
+           await m.reply_text(warning_text)
 
             stickers = [
                 "CAACAgUAAxkBAAKcLmf-E2SXmiXe99nF5KuHMMbeBsEoAALbHAACocj4Vkl1jIJ0iWpmHgQ",
