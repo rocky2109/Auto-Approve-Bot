@@ -85,6 +85,7 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
                 f"We’re happy to have you with us. 🥰\n\n"
                 f"💎 𝐌𝐞𝐦𝐛𝐞𝐫𝐬 𝐂𝐨𝐮𝐧𝐭: <b>{member_count:,}</b> 🚀\n"
                 f"┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌\n"
+            )
                 await m.reply_text(approve_text)
 
     # Second message: Warning about removing tags
