@@ -93,16 +93,14 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
 
             warning_text = (
                 f"⚠️⚠️⚠️\n"
-                f"<b><i>||If you remove the tag `{', '.join(required_tags)}` from your bio, "
-                f"you will be removed from the channel. 💀||\n"
-                f"These tags are required to remain a verified member of\n≫ <b>{chat.title}</b>\n"
+                f"<b><i>||If you remove the tag `{', '.join(required_tags)}` from your bio,"
+                f"you will be removed from the channel. 🌝||\n"
+                f"This tag is required to remain a verified member of\n≫ <b>{chat.title}</b>\n"
                 f"Make sure to keep that tag in your Bio to avoid removal. 😉</i></b>"
             )
 
             stickers = [
                 "CAACAgUAAxkBAAEBZJRob55DW_2LV6QUbSLfgyB5Ic7ABAAC_RQAAohcsFevarYd4PoG-B4E",
-                "CAACAgUAAxkBAAKcH2f94mJ3mIfgQeXmv4j0PlEpIgYMAAJvFAACKP14V1j51qcs1b2wHgQ",
-                "CAACAgUAAxkBAAJLXmf2ThTMZwF8_lu8ZEwzHvRaouKUAAL9FAACiFywV69qth3g-gb4HgQ",
                 "CAACAgUAAxkBAAEBZJBob5akEh3rGh9h7lANaH7MGAJfkAACwxoAAit2eVeMbZ7zpZHiGB4E"
             ]
 
@@ -116,8 +114,7 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
 
             # ✅ Send to APPROVE_CHANNEL
             try:
-                await client.send_message(APPROVE_CHANNEL, approve_text)
-                await client.send_message(APPROVE_CHANNEL, warning_text)
+                await client.send_message(APPROVE_CHANNEL, approve_text, disable_web_page_preview=True)                
                 await client.send_sticker(APPROVE_CHANNEL, random.choice(stickers))
             except Exception as e:
                 logger.warning(f"Could not send to APPROVE_CHANNEL: {e}")
