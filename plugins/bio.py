@@ -84,10 +84,10 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
 
             approve_text = (
                 f"🔓 <b>Access Granted ✅</b>\n\n"
-                f"<b><blockquote> Cheers, <a href='https://t.me/Real_Pirates'>{full_name}</a> ! 🥂</blockquote></b>\n"
+                f"<b><blockquote> Cheers, <a href='https://t.me/II_LevelUP_II'>{full_name}</a> ! 🥂</blockquote></b>\n"
                 f"Your Request To Join <blockquote><b><a href='{invite_link}'> {chat.title} </a></b></blockquote> Has Been Approved! 🎉\n"
-                f"We’re happy to have you with us. 🦋\n\n"
-                f"💖 𝐌𝐞𝐦𝐛𝐞𝐫𝐬 𝐂𝐨𝐮𝐧𝐭: <b>{member_count:,}</b> 🚀\n"
+                f"We’re happy to have you with us. 💞\n\n"
+                f"🦋 𝐌𝐞𝐦𝐛𝐞𝐫𝐬 𝐂𝐨𝐮𝐧𝐭: <b>{member_count:,}</b> 🚀\n"
                 f"┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌\n"
             )
 
@@ -95,12 +95,12 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
                 f"⚠️⚠️⚠️\n"
                 f"<b><i>||If you remove the tag `{', '.join(required_tags)}` from your bio, "
                 f"you will be removed from the channel. 💀||\n"
-                f"These tags are required to remain a verified member of  <blockquote>≫<b><a href='{invite_link}'> {chat.title} </a></b></blockquote>\n"
+                f"These tags are required to remain a verified member of\n≫ <b>{chat.title}</b>\n"
                 f"Make sure to keep that tag in your Bio to avoid removal. 😉</i></b>"
             )
 
             stickers = [
-                "CAACAgUAAxkBAAKcLmf-E2SXmiXe99nF5KuHMMbeBsEoAALbHAACocj4Vkl1jIJ0iWpmHgQ",
+                "CAACAgUAAxkBAAEBZJRob55DW_2LV6QUbSLfgyB5Ic7ABAAC_RQAAohcsFevarYd4PoG-B4E",
                 "CAACAgUAAxkBAAKcH2f94mJ3mIfgQeXmv4j0PlEpIgYMAAJvFAACKP14V1j51qcs1b2wHgQ",
                 "CAACAgUAAxkBAAJLXmf2ThTMZwF8_lu8ZEwzHvRaouKUAAL9FAACiFywV69qth3g-gb4HgQ",
                 "CAACAgUAAxkBAAEBZJBob5akEh3rGh9h7lANaH7MGAJfkAACwxoAAit2eVeMbZ7zpZHiGB4E"
@@ -108,14 +108,16 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
 
             # ✅ Send to user (DM)
             try:
-                await client.send_message(m.from_user.id, approve_text + warning_text, disable_web_page_preview=True)
+                await client.send_message(m.from_user.id, approve_text)
+                await client.send_message(m.from_user.id, warning_text)
                 await client.send_sticker(m.from_user.id, random.choice(stickers))
             except Exception as e:
                 logger.warning(f"Could not DM approved user: {e}")
 
             # ✅ Send to APPROVE_CHANNEL
             try:
-                await client.send_message(APPROVE_CHANNEL, approve_text + warning_text, disable_web_page_preview=True)
+                await client.send_message(APPROVE_CHANNEL, approve_text)
+                await client.send_message(APPROVE_CHANNEL, warning_text)
                 await client.send_sticker(APPROVE_CHANNEL, random.choice(stickers))
             except Exception as e:
                 logger.warning(f"Could not send to APPROVE_CHANNEL: {e}")
@@ -153,7 +155,7 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
 
             try:
                 await client.send_message(m.from_user.id, reject_text, disable_web_page_preview=True, reply_markup=buttons)
-                await client.send_sticker(m.from_user.id, random.choice(stickers))
+                await client.send_sticker(m.from_user.id, "CAACAgUAAxkBAAEBZJhob6GN_Xkb4T-bfBGyTidwpYR8ywAC3RsAAoPe2FZmgpOgyG0j3h4E")
             except (UserNotMutualContact, PeerIdInvalid):
                 pass
             except Exception as e:
