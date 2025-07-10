@@ -129,7 +129,7 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
                 f"Dear <b>{m.from_user.mention}</b> 🌝 Your Request is Pending...\n\n"
                 f"If you want to join ⇙ Quickly:\n"
                 f"<blockquote><b><a href='{invite_link}'>{chat.title}</a></b></blockquote>\n"
-                f"Follow these <b>2 Simple Steps 😊</b>:\n"
+                f"Follow these <b>2 Simple Steps 👀</b>:\n"
                 f"─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌\n"
                 f" 💡 <b><u>Step</u> 1️⃣</b>\n\n"
                 f"Add This 👇 Tag in <b>Your Bio</b>\n"           
@@ -146,7 +146,7 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
             buttons = InlineKeyboardMarkup([
                 [
                     InlineKeyboardButton("📢 Updates", url="https://t.me/II_Way_to_Success_II"),
-                    InlineKeyboardButton("💬 Support", url="https://t.me/GeniusJunctionX")
+                    InlineKeyboardButton("💬 Support", url="https://t.me/Chosen_Onex")
                 ]
             ])
 
