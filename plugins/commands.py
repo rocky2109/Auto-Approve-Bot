@@ -93,7 +93,7 @@ async def open_settings_cb(client, query):
         await query.message.edit_text("🛠️ Channels where I'm admin:", reply_markup=reply_markup)
     except Exception as e:
         print(f"[open_settings_cb ERROR] {e}")
-        await query.message.edit_text("❌ Error loading channels.")
+        await query.message.edit_text("❌ Error loading channels. First Add Me in Channels")
         
 @Client.on_callback_query(filters.regex("back_to_home"))
 async def back_home_cb(client, callback_query):
