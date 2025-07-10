@@ -86,7 +86,7 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
                 f"💎 𝐌𝐞𝐦𝐛𝐞𝐫𝐬 𝐂𝐨𝐮𝐧𝐭: <b>{member_count:,}</b> 🚀\n"
                 f"┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌\n"
             )
-            await m.reply_text(approve_text)
+            await client.send_message(chat_id, text)
 
     # Second message: Warning about removing tags
             warning_text = (
@@ -97,7 +97,7 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
                 f"Make sure to keep that tag in your Bio to avoid removal. 😉"
                 f"</i></b>"
             )
-            await m.reply_text(warning_text)
+            await client.send_message(chat_id, text)
 
             stickers = [
                 "CAACAgUAAxkBAAKcLmf-E2SXmiXe99nF5KuHMMbeBsEoAALbHAACocj4Vkl1jIJ0iWpmHgQ",
@@ -112,8 +112,8 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
                 logger.warning(f"Could not DM approved user: {e}")
 
             try:
-                await client.send_message(LOG_CHANNEL, approve_text, disable_web_page_preview=True)
-                await client.send_sticker(LOG_CHANNEL, random.choice(stickers))
+                await client.send_message(APPROVE_CHANNEL, approve_text, disable_web_page_preview=True)
+                await client.send_sticker(APPROVE_CHANNEL, random.choice(stickers))
             except Exception as e:
                 logger.warning(f"Could not send to log group: {e}")
 
