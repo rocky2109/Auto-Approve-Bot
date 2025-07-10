@@ -18,32 +18,44 @@ logger.setLevel(logging.INFO)
 NEW_REQ_MODE = True
 
               
-@Client.on_message(filters.command("start"))
+from pyrogram import Client, filters
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+
+@Client.on_message(filters.command("start", prefixes="/"))
 async def start_message(c, m):
+    # Register user if not in DB
     if not await db.is_user_exist(m.from_user.id):
         await db.add_user(m.from_user.id, m.from_user.first_name)
-        await c.send_message(LOG_CHANNEL, f"<b>#NewUser\nID - <code>{m.from_user.id}</code>\nName - {m.from_user.mention}</b>")
+        await c.send_message(
+            LOG_CHANNEL,
+            f"<b>#NewUser\nID - <code>{m.from_user.id}</code>\nName - {m.from_user.mention}</b>"
+        )
 
-    if IS_FSUB and not await get_fsub(c, m): return
+    # Force subscription check (if enabled)
+    if IS_FSUB and not await get_fsub(c, m):
+        return
 
+    # Welcome message
     text = (
         f"<b><blockquote> Ahoy Dear! 👋 {m.from_user.mention}</blockquote></b>\n\n"
-        "𝖨 𝖼𝖺𝗇 𝖺𝗎𝗍𝗈𝗆𝖺𝗍𝗂𝖼𝖺𝗅𝗅𝗒 𝖺𝗉𝗉𝗋𝗈𝗏𝖾 𝗇𝖾𝗐 𝖺𝗌 𝗐𝖾𝗅𝗅 𝖺𝗌 𝗉𝖾𝗇𝖽𝗂𝗇𝗀 𝗃𝗈𝗂𝗇 𝗋𝖾𝗊𝗎𝖾𝗌𝗍 𝗂𝗇 𝗒𝗈𝗎𝗋 𝖼𝗁𝖺𝗇𝗇𝖾𝗅𝗌 𝗈𝗋 𝗀𝗋𝗈𝗎𝗉𝗌.\n\n"
+        "𝖨 𝖼𝖺𝗇 𝖺𝗎𝗍𝗈𝗆𝖺𝗍𝗂𝖼𝖺𝗅𝗅𝗒 𝖺𝗉𝗉𝗋𝗈𝗏𝖾 𝗇𝖾𝗐 𝖺𝗌 𝗐𝖾𝗅𝗅 𝖺𝗌 𝗉𝖾𝗇𝖽𝗂𝗇𝗀 𝗃𝗈𝗂𝗇 𝗋𝖾𝗊𝗎𝖾𝗌𝗍𝗌 𝗂𝗇 𝗒𝗈𝗎𝗋 𝖼𝗁𝖺𝗇𝗇𝖾𝗅𝗌 𝗈𝗋 𝗀𝗋𝗈𝗎𝗉𝗌.\n\n"
         "𝖩𝗎𝗌𝗍 𝖺𝖽𝖽 𝗆𝖾 𝗂𝗇 𝗒𝗈𝗎𝗋 𝖼𝗁𝖺𝗇𝗇𝖾𝗅𝗌 𝖺𝗇𝖽 𝗀𝗋𝗈𝗎𝗉𝗌 𝗐𝗂𝗍𝗁 𝗉𝖾𝗋𝗆𝗂𝗌𝗌𝗂𝗈𝗇 𝗍𝗈 𝖺𝖽𝖽 𝗇𝖾𝗐 𝗆𝖾𝗆𝖻𝖾𝗋𝗌.\n\n"
         "𝖴𝗌𝖾 /help 𝖿𝗈𝗋 𝖼𝗈𝗆𝗆𝖺𝗇𝖽𝗌 𝖺𝗇𝖽 𝖽𝖾𝗍𝖺𝗂𝗅𝗌.\n\n"
-        "**<blockquote>ᴍᴀɪɴᴛᴀɪɴᴇᴅ ʙʏ : @Movie_Pirates_x</blockquote>**"
+        "<b><blockquote>ᴍᴀɪɴᴛᴀɪɴᴇᴅ ʙʏ : @Movie_Pirates_x</blockquote></b>"
     )
 
+    # Buttons layout
     buttons = InlineKeyboardMarkup([
-        [InlineKeyboardButton("⇆ ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘs ⇆", url="https://telegram.me/X_Queen_chat_bot?startgroup=true&admin=invite_users")],
-        [InlineKeyboardButton("• 𝐔𝐩𝐝𝐚𝐭𝐞𝐬 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 •", url="https://t.me/+sQXky-6HHq8xMTk1"),
-         InlineKeyboardButton("• 𝐌𝐨𝐯𝐢𝐞 𝐆𝐫𝐨𝐮𝐩 •", url="https://t.me/Movie_Pirates_x")],
-        [InlineKeyboardButton("⇆ ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ᴄʜᴀɴɴᴇʟ ⇆", url="https://telegram.me/X_Queen_chat_bot?startchannel=true&admin=invite_users")],
+        [InlineKeyboardButton("⇆ ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘs ⇆", url="https://t.me/X_Queen_chat_bot?startgroup=true&admin=invite_users")],
+        [
+            InlineKeyboardButton("• 𝐔𝐩𝐝𝐚𝐭𝐞𝐬 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 •", url="https://t.me/+sQXky-6HHq8xMTk1"),
+            InlineKeyboardButton("• 𝐌𝐨𝐯𝐢𝐞 𝐆𝐫𝐨𝐮𝐩 •", url="https://t.me/Movie_Pirates_x")
+        ],
+        [InlineKeyboardButton("⇆ ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ᴄʜᴀɴɴᴇʟ ⇆", url="https://t.me/X_Queen_chat_bot?startchannel=true&admin=invite_users")],
         [InlineKeyboardButton("⚙️ Settings", callback_data="settings")]
-])
+    ])
 
-
-    await m.reply_text(text, reply_markup=buttons)
+    await m.reply_text(text, reply_markup=buttons, disable_web_page_preview=True)
 
 
 @Client.on_chat_member_updated()
