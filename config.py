@@ -12,7 +12,7 @@ DB_NAME = environ.get("DB_NAME", "autoacceptbot")
 NEW_REQ_MODE = bool(environ.get('NEW_REQ_MODE', True))
 IS_FSUB = bool(environ.get("FSUB", True))
 AUTH_CHANNELS = list(map(int, environ.get("AUTH_CHANNEL", "").split()))
-NEWS_CHANNEL = -1002673901150  # or "@YourChannelUsername"
+APPROVE_CHANNEL = int(environ.get("APPROVE_CHANNEL", ""))  # Replace with your actual channel ID
 
 # New OpenAI config
 OPENAI_API_KEY = environ.get("OPENAI_API_KEY", "")
