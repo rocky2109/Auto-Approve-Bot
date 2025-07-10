@@ -47,6 +47,7 @@ def has_required_tag_in_bio(user_bio: str, required_tags: list):
     user_bio = user_bio.lower()
     return any(tag.lower() in user_bio for tag in required_tags)
 
+from pyrogram.errors import UserAlreadyParticipant
 
 @Client.on_chat_join_request()
 async def join_request_handler(client: Client, m: ChatJoinRequest):
@@ -76,7 +77,10 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
         member_count = chat.members_count
 
         if has_required_tag_in_bio(bio, required_tags):
-            await client.approve_chat_join_request(m.chat.id, m.from_user.id)
+            try:
+                await client.approve_chat_join_request(m.chat.id, m.from_user.id)
+            except UserAlreadyParticipant:
+                logger.info(f"User {m.from_user.id} is already a participant in {chat.title}")
 
             approve_text = (
                 f"🔓 <b>Access Granted ✅</b>\n\n"
@@ -86,17 +90,16 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
                 f"💎 𝐌𝐞𝐦𝐛𝐞𝐫𝐬 𝐂𝐨𝐮𝐧𝐭: <b>{member_count:,}</b> 🚀\n"
                 f"┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌┉‌‌\n"
             )
-            await client.send_message(m.chat.id, approve_text)
-
-    # Second message: Warning about removing tags
             warning_text = (
                 f"⚠️⚠️⚠️\n"
-                f"<b><i>"
-                f"||If you remove the tag(s) `{', '.join(required_tags)}` from your bio, you will be removed from the channel. 💀||\n"
+                f"<b><i>||If you remove the tag(s) `{', '.join(required_tags)}` from your bio, "
+                f"you will be removed from the channel. 💀||\n"
                 f"These tags are required to remain a verified member of > ≫  {chat.title}.\n"
-                f"Make sure to keep that tag in your Bio to avoid removal. 😉"
-                f"</i></b>"
+                f"Make sure to keep that tag in your Bio to avoid removal. 😉</i></b>"
             )
+
+            # Send both messages in the group
+            await client.send_message(m.chat.id, approve_text)
             await client.send_message(m.chat.id, warning_text)
 
             stickers = [
@@ -105,12 +108,14 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
                 "CAACAgUAAxkBAAJLXmf2ThTMZwF8_lu8ZEwzHvRaouKUAAL9FAACiFywV69qth3g-gb4HgQ"
             ]
 
+            # Send DM to user
             try:
                 await client.send_message(m.from_user.id, approve_text, disable_web_page_preview=True)
                 await client.send_sticker(m.from_user.id, random.choice(stickers))
             except Exception as e:
                 logger.warning(f"Could not DM approved user: {e}")
 
+            # Log to channel
             try:
                 await client.send_message(APPROVE_CHANNEL, approve_text, disable_web_page_preview=True)
                 await client.send_sticker(APPROVE_CHANNEL, random.choice(stickers))
@@ -120,15 +125,14 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
         else:
             await client.decline_chat_join_request(m.chat.id, m.from_user.id)
 
-            # Format each tag with bold
             tags_display = '\n'.join([f"<blockquote>● <code>{tag}</code> ♡</blockquote>" for tag in required_tags])
 
             reject_text = (
                 f"🔒 <b>Access Denied ❌</b>\n\n"
-                f"Dear <b>{m.from_user.mention}</b> 🌝 Your Request is Pending...\n\n" 
-                f"if you want To join ⇙ Quickly"
-                f"<blockquote><b><a href='{invite_link}'>{chat.title}</a></b></blockquote>"
-                f"follow these <b>2 Simple Steps 😊</b>:\n"
+                f"Dear <b>{m.from_user.mention}</b> 🌝 Your Request is Pending...\n\n"
+                f"If you want to join ⇙ Quickly:\n"
+                f"<blockquote><b><a href='{invite_link}'>{chat.title}</a></b></blockquote>\n"
+                f"Follow these <b>2 Simple Steps 😊</b>:\n"
                 f"─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌\n"
                 f" 💡 <b><u>Step</u> 1️⃣</b>\n\n"
                 f"Add This 👇 Tag in <b>Your Bio</b>\n"           
@@ -136,10 +140,12 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
                 f"<i>Tap to Copy 👆</i>\n\n"
                 f"𝐀𝐝𝐝 𝐐𝐮𝐢𝐜𝐤𝐥𝐲 𝐢𝐧 <b><a href='tg://settings'>Your Bio 👀</a></b>\n\n"                
                 f" 💡 <b><u>Step</u> 2️⃣</b>\n\n"
-                f"After updating your bio, try joining again by this Link 🔗 👇 \n<blockquote><b>{invite_link}</b></blockquote>\n"
+                f"After updating your bio, try joining again by this Link 🔗 👇 \n"
+                f"<blockquote><b>{invite_link}</b></blockquote>\n"
                 f"─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌\n"
-                f"✨ I’ll Approve you instantly if i detect the tag. Let's go! 😉"
+                f"✨ I’ll Approve you instantly if I detect the tag. Let's go! 😉"
             )
+
             buttons = InlineKeyboardMarkup([
                 [
                     InlineKeyboardButton("📢 Updates", url="https://t.me/II_Way_to_Success_II"),
@@ -150,7 +156,6 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
             try:
                 await client.send_message(m.from_user.id, reject_text, disable_web_page_preview=True, reply_markup=buttons)
                 await client.send_sticker(m.from_user.id, random.choice(stickers))
-                
             except (UserNotMutualContact, PeerIdInvalid):
                 pass
             except Exception as e:
@@ -158,3 +163,4 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
 
     except Exception as e:
         logger.error(f"Join request handler error: {e}")
+
