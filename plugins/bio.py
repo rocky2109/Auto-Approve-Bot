@@ -146,7 +146,7 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
 
             buttons = InlineKeyboardMarkup([
                 [
-                    InlineKeyboardButton("📢 Updates", url="https://t.me/II_Way_to_Success_II"),
+                    InlineKeyboardButton("📢 Updates", url="https://t.me/+4X6ioguOTltmOTE1"),
                     InlineKeyboardButton("💖 Support", url="https://t.me/Chosen_Onex")
                 ]
             ])
