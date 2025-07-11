@@ -120,7 +120,7 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
                 logger.warning(f"Could not send to APPROVE_CHANNEL: {e}")
 
         else:
-            await client.decline_chat_join_request(m.chat.id, m.from_user.id)
+            
 
             tags_display = '\n'.join([f"<blockquote>● <code>{tag}</code> ♡</blockquote>" for tag in required_tags])
 
@@ -140,13 +140,13 @@ async def join_request_handler(client: Client, m: ChatJoinRequest):
                 f"After updating your bio, try joining again by this Link 🔗 👇 \n"
                 f"<blockquote><b>{invite_link}</b></blockquote>\n"
                 f"─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌─‌\n"
-                f"✨ I’ll Approve you instantly if I detect the tag. Let's go! 😉"
+                f"Make Sure Your Bio Setting For Everyone\n\n✨ I’ll Approve you instantly if I detect the tag. Let's go! 😉"
                 f"Use /help for detailed guide"
             )
 
             buttons = InlineKeyboardMarkup([
                 [
-                    InlineKeyboardButton("📢 Updates", url="https://t.me/+4X6ioguOTltmOTE1"),
+                    InlineKeyboardButton("📢 Members Updates", url="https://t.me/+4X6ioguOTltmOTE1"),
                     InlineKeyboardButton("💖 Support", url="https://t.me/Chosen_Onex")
                 ]
             ])
