@@ -129,7 +129,7 @@ async def auto_quote_sender(app: Client):
                 print(f"[✅] Sent quote from '{category}'")
         except Exception as e:
             print(f"[❌ Auto Quote Error] {str(e)}")
-        await asyncio.sleep(10800)  # Every 5 minutes
+        await asyncio.sleep(60)  # Every 5 minutes
 
 # 🔘 /quote command - Show buttons for available categories
 @Client.on_message(filters.command("quote") & filters.private)
