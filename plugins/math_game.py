@@ -64,7 +64,7 @@ def get_main_menu(session):
 
 # /math command handler
 @Client.on_message(filters.command("math"))
-async def start_math_game(client, message: Message):
+async def start_game(client, message: Message):
     user_id = message.from_user.id
     user_sessions[user_id] = {
         "count": 5,
@@ -75,7 +75,7 @@ async def start_math_game(client, message: Message):
         "message_id": None  # <-- Track main message
     }
     sent = await message.reply(
-        "🎮 <b> Hey Welcome to the Math Game!</b>\nChoose question count and difficulty level below:",
+        "🎮 <b> Hoi Welcome to the Math Game!</b>\nChoose question count and difficulty level below:",
         reply_markup=get_main_menu(user_sessions[user_id])
     )
     user_sessions[user_id]["message_id"] = sent.message_id
