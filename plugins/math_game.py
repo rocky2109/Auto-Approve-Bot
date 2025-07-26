@@ -5,6 +5,8 @@ import random
 
 logging.basicConfig(level=logging.DEBUG)
 
+# Replace these with your actual API credentials
+
 user_sessions = {}
 
 # Generate a math question with additional types (addition, subtraction, multiplication, division)
@@ -63,7 +65,7 @@ def get_main_menu(session):
     ])
 
 # /math command handler
-@Client.on_message(filters.command("math"))
+@app.on_message(filters.command("math"))
 async def start_game(client, message: Message):
     user_id = message.from_user.id
     user_sessions[user_id] = {
@@ -72,16 +74,16 @@ async def start_game(client, message: Message):
         "score": 0,
         "current": 0,
         "game_over": False,
-        "message_id": None  # <-- Track main message
+        "message_id": None  # Track main message
     }
     sent = await message.reply(
-        "🎮 <b> Hoi Welcome to the Math Game!</b>\nChoose question count and difficulty level below:",
+        "🎮 <b>Hoi Welcome to the Math Game!</b>\nChoose question count and difficulty level below:",
         reply_markup=get_main_menu(user_sessions[user_id])
     )
     user_sessions[user_id]["message_id"] = sent.message_id
 
 # Handle setup menu buttons
-@Client.on_callback_query(filters.regex("^(add_5|sub_5|level_.*|start_game|noop)$"))
+@app.on_callback_query(filters.regex("^(add_5|sub_5|level_.*|start_game|noop)$"))
 async def handle_setup_buttons(client, query: CallbackQuery):
     user_id = query.from_user.id
     session = user_sessions.get(user_id)
@@ -145,9 +147,8 @@ async def send_next_question(client, chat_id, user_id):
         reply_markup=InlineKeyboardMarkup(buttons)
     )
 
-
 # Handle answer selection
-@Client.on_callback_query(filters.regex("^answer_"))
+@app.on_callback_query(filters.regex("^answer_"))
 async def handle_answer(client, query: CallbackQuery):
     user_id = query.from_user.id
     session = user_sessions.get(user_id)
@@ -173,7 +174,7 @@ async def handle_answer(client, query: CallbackQuery):
     await send_next_question(client, query.message.chat.id, user_id)
 
 # Stop game manually
-@Client.on_callback_query(filters.regex("^stop_game$"))
+@app.on_callback_query(filters.regex("^stop_game$"))
 async def stop_game(_, query: CallbackQuery):
     user_id = query.from_user.id
     session = user_sessions.pop(user_id, None)
@@ -183,7 +184,7 @@ async def stop_game(_, query: CallbackQuery):
         await query.message.edit_text(f"🛑 Game stopped.\nFinal Score: {score} / {total}")
 
 # Restart game from play again
-@Client.on_callback_query(filters.regex("^restart_game$"))
+@app.on_callback_query(filters.regex("^restart_game$"))
 async def restart_game(client, query: CallbackQuery):
     user_id = query.from_user.id
     old_session = user_sessions.get(user_id)
@@ -196,8 +197,11 @@ async def restart_game(client, query: CallbackQuery):
         "level": old_session["level"],
         "score": 0,
         "current": 0,
-        "game_over": False
+        "game_over": False,
+        "message_id": old_session["message_id"]
     }
 
     await query.message.delete()
     await send_next_question(client, query.message.chat.id, user_id)
+
+# Start the bot
