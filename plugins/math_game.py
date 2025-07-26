@@ -65,21 +65,19 @@ def get_main_menu(session):
 @Client.on_message(filters.command("math"))
 async def start_math_game(client, message: Message):
     user_id = message.from_user.id
-    logging.debug(f"Starting math game for user {user_id}")
-    
     user_sessions[user_id] = {
         "count": 5,
         "level": "easy",
         "score": 0,
         "current": 0,
-        "game_over": False  # Track if the game is over
+        "game_over": False,
+        "message_id": None  # <-- Track main message
     }
-    logging.debug(f"Session initialized: {user_sessions[user_id]}")
-    
-    await message.reply(
-        "🎮 <b>Welcome to the Math Game!</b>\nChoose question count and difficulty level below:",
+    sent = await message.reply(
+        "🎮 <b> Hey Welcome to the Math Game!</b>\nChoose question count and difficulty level below:",
         reply_markup=get_main_menu(user_sessions[user_id])
     )
+    user_sessions[user_id]["message_id"] = sent.message_id
 
 # Handle setup menu buttons
 @Client.on_callback_query(filters.regex("^(add_5|sub_5|level_.*|start_game|noop)$"))
@@ -113,8 +111,9 @@ async def send_next_question(client, chat_id, user_id):
     session = user_sessions.get(user_id)
     if not session or session["game_over"] or session["current"] >= session["count"]:
         session["game_over"] = True
-        await client.send_message(
+        await client.edit_message_text(
             chat_id,
+            session["message_id"],
             f"🏁 <b>Game Over!</b>\n✅ Score: {session['score']} / {session['count']}",
             reply_markup=InlineKeyboardMarkup([
                 [InlineKeyboardButton("🔁 Play Again", callback_data="restart_game")]
@@ -135,7 +134,12 @@ async def send_next_question(client, chat_id, user_id):
     buttons.append([InlineKeyboardButton("🛑 Stop", callback_data="stop_game")])
 
     text = f"❓ <b>Q{session['current']} of {session['count']}:</b>\n<code>{question}</code> = ?"
-    await client.send_message(chat_id, text, reply_markup=InlineKeyboardMarkup(buttons))
+    await client.edit_message_text(
+        chat_id,
+        session["message_id"],
+        text,
+        reply_markup=InlineKeyboardMarkup(buttons)
+    )
 
 # Handle answer selection
 @Client.on_callback_query(filters.regex("^answer_"))
