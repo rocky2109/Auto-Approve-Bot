@@ -10,40 +10,41 @@ user_sessions = {}
 # Generate a math question with additional types (addition, subtraction, multiplication, division)
 def generate_question(level):
     if level == "easy":
+        operation = random.choice(["+", "-"])
         a, b = random.randint(1, 20), random.randint(1, 20)
-        question = f"{a} + {b}"
-        answer = a + b
-        operation = "+"
     elif level == "medium":
-        a, b = random.randint(10, 30), random.randint(2, 10)
-        operation = random.choice(["×", "÷"])
-        if operation == "×":
-            question = f"{a} × {b}"
-            answer = a * b
-        else:
-            b = random.randint(1, 10)
-            question = f"{a} ÷ {b}"
-            answer = a // b
+        operation = random.choice(["+", "-", "×"])
+        a, b = random.randint(10, 50), random.randint(5, 20)
     else:  # hard
-        a, b = random.randint(50, 100), random.randint(10, 50)
-        operation = random.choice(["+", "-", "×", "÷"])
-        if operation == "+":
-            question = f"{a} + {b}"
-            answer = a + b
-        elif operation == "-":
-            question = f"{a} - {b}"
-            answer = a - b
-        elif operation == "×":
-            question = f"{a} × {b}"
-            answer = a * b
-        else:  # division
-            question = f"{a} ÷ {b}"
-            answer = a // b
+        operation = random.choice(["+", "-", "×", "÷", "%"])
+        a, b = random.randint(20, 100), random.randint(1, 30)
 
+    # Ensure no division by zero
+    if operation == "÷" and b == 0:
+        b = 1
+    if operation == "%":
+        b = max(1, b)
+
+    if operation == "+":
+        answer = a + b
+    elif operation == "-":
+        answer = a - b
+    elif operation == "×":
+        answer = a * b
+    elif operation == "÷":
+        answer = a // b
+    elif operation == "%":
+        answer = a % b
+
+    question = f"{a} {operation} {b}"
+
+    # Generate options
     options = {answer}
     while len(options) < 4:
-        fake = random.randint(answer - 15, answer + 15)
-        options.add(fake)
+        fake = answer + random.randint(-10, 10)
+        if fake != answer:
+            options.add(fake)
+
     return question, answer, list(options)
 
 # Keyboard for setup menu
@@ -109,7 +110,10 @@ async def handle_setup_buttons(client, query: CallbackQuery):
 # Send the next math question
 async def send_next_question(client, chat_id, user_id):
     session = user_sessions.get(user_id)
-    if not session or session["game_over"] or session["current"] >= session["count"]:
+    if not session:
+        return
+
+    if session["game_over"] or session["current"] >= session["count"]:
         session["game_over"] = True
         await client.edit_message_text(
             chat_id,
@@ -140,6 +144,7 @@ async def send_next_question(client, chat_id, user_id):
         text,
         reply_markup=InlineKeyboardMarkup(buttons)
     )
+
 
 # Handle answer selection
 @Client.on_callback_query(filters.regex("^answer_"))
